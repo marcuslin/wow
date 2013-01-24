@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @user.user_name %>
+</p>
+<p>
+  <b>Realms:</b>
+  <% @user.realms.each do |r| %>
+    <%= "#{r.name}" %>
+    <br>
+  <% end %>
+</p>
+<p>
+  <b>Characters:</b>
+  <% @user.characters.each do |c| %>
+    <%= "class: #{c.character_class}, name: #{c.name}, gender: #{c.gender}, level: #{c.level}, race: #{c.race}" %>
+    <br>
+  <% end %>
+</p>
+<p>
+  <b>Equipments:</b>
+  <% @character.equipments.each do |e| %>
+    <%= "head: #{e.head}" %>
+    <br>
+  <% end %>
+</p>
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

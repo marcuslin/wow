@@ -1,0 +1,6 @@
+<%= simple_form_for(@user) do |f| %>
+  <%= f.input :user_name %>
+  <%= f.association :realms, as: :string %>
+  <%= f.association :characters, as: :string %>
+  <%= f.button :submit %>
+<% end %>
