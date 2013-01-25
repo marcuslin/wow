@@ -16,13 +16,13 @@
   <% @user.characters.each do |c| %>
     <%= "class: #{c.character_class}, name: #{c.name}, gender: #{c.gender}, level: #{c.level}, race: #{c.race}" %>
     <br>
-  <% end %>
-</p>
-<p>
-  <b>Equipments:</b>
-  <% @character.equipments.each do |e| %>
-    <%= "head: #{e.head}" %>
-    <br>
+    <p>
+      <b>Equipments:</b>
+      <% c.equipments.each do |e| %>
+        <%= "head: #{e.head}" %>
+        <br>
+      <% end %>
+    </p>
   <% end %>
 </p>
 <%= link_to 'Edit', edit_user_path(@user) %> |
