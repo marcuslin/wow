@@ -40,6 +40,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     user_input = params[:user]
+
     profile = Character.get_profile(user_input["realm_ids"], user_input["character_ids"])
 
     # make sure user ids are unique in the table before we save it
@@ -56,8 +57,9 @@ class UsersController < ApplicationController
 
     item = profile["items"]
 
+    binding.pry
     equip = Equipment.where(id: @character.id).first_or_create! do |e|
-      e.head = item["head"]
+      e.head = item["name"]
 
     end
 

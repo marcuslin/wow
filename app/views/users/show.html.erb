@@ -19,11 +19,12 @@
   <% end %>
 </p>
 <p>
-  <b>Equipments:</b>
-  <% @character.equipments.each do |e| %>
-    <%= "head: #{e.head}" %>
+  <b>Characters:</b>
+  <% @character.equipments.each do |c| %>
+    <%= "class: #{c.character_class}, name: #{c.name}, gender: #{c.gender}, level: #{c.level}, race: #{c.race}" %>
     <br>
   <% end %>
 </p>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
