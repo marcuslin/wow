@@ -7,10 +7,11 @@ gem 'httparty'
 gem 'simple_form'
 
 group :development do
-        gem 'pry'
-        gem 'pry-rails'
+  gem 'pry'
+  gem 'pry-rails'
   gem "better_errors"
   gem "binding_of_caller"
+  gem "awesome_print"
 end
 
 # Bundle edge Rails instead:

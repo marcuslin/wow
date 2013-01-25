@@ -54,10 +54,15 @@ class UsersController < ApplicationController
 
     realm = Realm.where(user_id: @user.id, character_id: @character.id, name: profile["realm"]).first_or_create!
 
-    item = profile["items"]
+    items = profile["items"]
 
-    equip = Equipment.where(id: @character.id).first_or_create! do |e|
-      e.head = item["head"]
+    # you will need to do db changes
+    # 1. You don't need to manually create an equipment_id field. Rails takes care of that for you.
+    #    Rmove that column
+    # 2. You need a character_id column in the equipment talbe. you can do this : t.references :character
+    equip = items.where(character_id: @character.id).first_or_create! do |e|
+      e.head = item["head"]["name"]
+      # add other equipments like the above
 
     end
 
