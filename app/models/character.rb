@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class Character < ActiveRecord::Base
   has_many :realms
   has_many :equipments
@@ -8,7 +10,7 @@ class Character < ActiveRecord::Base
 
   def self.get_profile(realm, charactername)
     url = "http://tw.battle.net/api/wow/character/#{realm}/#{charactername}?fields=items"
-    response = HTTParty.get(url)
+    response = JSON.parse(open(url).read)
   end
 end
 

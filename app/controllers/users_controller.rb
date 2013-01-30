@@ -55,12 +55,33 @@ class UsersController < ApplicationController
 
     realm = Realm.where(user_id: @user.id, character_id: @character.id, name: profile["realm"]).first_or_create!
 
-    item = profile["items"]
+    items = profile["items"]
 
-    binding.pry
-    equip = Equipment.where(id: @character.id).first_or_create! do |e|
-      e.head = item["name"]
-
+    # you will need to do db changes
+    # 1. You don't need to manually create an equipment_id field. Rails takes care of that for you.
+    #    Rmove that column
+    # 2. You need a character_id column in the equipment talbe. you can do this : t.references :character
+    equip = Equipment.where(character_id: @character.id).first_or_create! do |e|
+      e.head = items["head"]["name"]
+      e.neck = items["neck"]["name"]
+      e.shoulder = items["shoulder"]["name"]
+      e.back = items["back"]["name"]
+      e.chest = items["chest"]["name"]
+      e.wrist = items["wrist"]["name"]
+      e.hands = items["hands"]["name"]
+      e.waist = items["waist"]["name"]
+      e.legs = items["legs"]["name"]
+      e.feet = items["feet"]["name"]
+      e.finger_1 = items["finger1"]["name"]
+      e.finger_2 = items["finger2"]["name"]
+      e.trinket_1 = items["trinket1"]["name"]
+      e.trinket_2 = items["trinket2"]["name"]
+      e.main_hand = items["mainHand"]["name"]
+        if items["offHand"].blank?
+        then e.off_hand = 'none'
+        else e.off_hand = items["offHand"]["name"]
+      end
+      # add other equipments like the above
     end
 
     # binding.pry
