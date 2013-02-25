@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(:version => 20130225093828) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "equipments", :force => true do |t|
+  create_table "equipment", :force => true do |t|
     t.string   "head"
     t.string   "head_icon"
     t.string   "head_quality"

@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     # 1. You don't need to manually create an equipment_id field. Rails takes care of that for you.
     #    Rmove that column
     # 2. You need a character_id column in the equipment talbe. you can do this : t.references :character
-    char = @character.equipments.build(character_id: @character.id, head: items["head"]["name"])
+    char = @character.equipments.build(character_id: @character.id, head: items["head"]["name"], neck: items["neck"]["name"], shoulder: items["shoulder"]["name"], back: items["back"]["name"], chest: items["chest"]["name"], wrist: items["wrist"]["name"], hands: items["hands"]["name"], waist: items["waist"]["name"], legs: items["legs"]["name"], feet: items["feet"]["name"], finger_1: items["finger1"]["name"], finger_2: items["finger2"]["name"], trinket_1: items["trinket1"]["name"], trinket_2: items["trinket2"]["name"], main_hand: items["mainHand"]["name"], off_hand: items["offHand"]["name"])
 
       # add other equipments like the above
     end
