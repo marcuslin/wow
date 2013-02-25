@@ -18,8 +18,8 @@
     <br>
     <p>
       <b>Equipments:</b>
-      <% c.equipments.each do |e| %>
-        <%= "head: #{e.head}, neck: #{e.neck}, shoulder: #{e.shoulder}, back: #{e.back}, chest: #{e.chest}, wrist: #{e.wrist}, hands: #{e.hands}, waist: #{e.waist},legs: #{e.legs}, feet: #{e.feet}, finger 1: #{e.finger_1}, finger 2: #{e.finger_2}, trinket 1: #{e.trinket_1}, trinket 2: #{e.trinket_2}, main hand: #{e.main_hand}, off hand: #{e.off_hand}"%>
+      <% c.character_equips.includes(:equipment).each do |e| %>
+        <%= "head: #{e.equipment.head}, neck: #{e.equipment.neck}, shoulder: #{e.equipment.shoulder}, back: #{e.equipment.back}, chest: #{e.equipment.chest}, wrist: #{e.equipment.wrist}, hands: #{e.equipment.hands}, waist: #{e.equipment.waist},legs: #{e.equipment.legs}, feet: #{e.equipment.feet}, finger 1: #{e.equipment.finger_1}, finger 2: #{e.equipment.finger_2}, trinket 1: #{e.equipment.trinket_1}, trinket 2: #{e.equipment.trinket_2}, main hand: #{e.equipment.main_hand}, off hand: #{e.equipment.off_hand}"%>
         <br>
       <% end %>
     </p>
