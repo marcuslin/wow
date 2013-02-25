@@ -1,4 +1,4 @@
-class Equipments < ActiveRecord::Base
+class Equipment < ActiveRecord::Base
   has_many :character_equips
   has_many :characters, :through => :character_equips
 
