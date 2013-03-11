@@ -1,5 +1,5 @@
 class ChangeStatColumn < ActiveRecord::Migration
   def change
-    change_column :equipment, :head_stat, :string
+    change_column :equipments, :head_stat, :string
   end
 end
