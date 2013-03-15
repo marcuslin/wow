@@ -39,12 +39,13 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    binding.pry
     user_input = params[:user]
 
     profile = Character.get_profile(user_input["realm_ids"], user_input["character_ids"])
 
     # make sure user ids are unique in the table before we save it
-    @user = rUser.whee(user_name: user_input[:user_name]).first_or_create
+    @user = User.where(user_name: user_input[:user_name]).first_or_create
 
     @character = Character.where(id: @user.id, name: user_input["character_ids"]).first_or_create! do |c|
       c.character_class = profile["class"]
@@ -61,7 +62,7 @@ class UsersController < ApplicationController
 
     equipment = @character.equipments.build(character_id: @character.id, head: items["head"]["name"], head_icon: items["head"]["icon"], head_quality: items["head"]["quality"], head_itemlvl: items["head"]["itemLevel"], head_stat: items["head"]["stats"], neck: items["neck"]["name"], neck_icon: items["neck"]["icon"], neck_quality: items["neck"]["quality"], neck_itemlvl: items["neck"]["itemLevel"], neck_stat: items["neck"]["stats"], shoulder: items["shoulder"]["name"], shoulder_icon: items["shoulder"]["icon"], shoulder_quality: items["shoulder"]["quality"], shoulder_itemlvl: items["shoulder"]["itemLevel"], shoulder_stat: items["shoulder"]["stats"], back: items["back"]["name"], back_icon: items["back"]["icon"], back_quality: items["back"]["quality"], back_itemlvl: items["back"]["itemLevel"],back_stat: items["back"]["stats"], chest: items["chest"]["name"], chest_icon: items["chest"]["icon"], chest_quality: items["chest"]["quality"], chest_itemlvl: items["chest"]["itemLevel"],chest_stat: items["chest"]["stats"], wrist: items["wrist"]["name"], wrist_icon: items["wrist"]["icon"], wrist_quality: items["wrist"]["quality"], wrist_itemlvl: items["wrist"]["itemLevel"],wrist_stat: items["wrist"]["stats"], hands: items["hands"]["name"], hands_icon: items["hands"]["icon"], hands_quality: items["hands"]["quality"], hands_itemlvl: items["hands"]["itemLevel"], hands_stat: items["hands"]["stats"], waist: items["waist"]["name"], waist_icon: items["waist"]["icon"], waist_quality: items["waist"]["quality"], waist_itemlvl: items["waist"]["itemLevel"], waist_stat: items["waist"]["stats"], legs: items["legs"]["name"], legs_icon: items["legs"]["icon"], legs_quality: items["legs"]["quality"], legs_itemlvl: items["legs"]["itemLevel"], legs_stat: items["legs"]["stats"], feet: items["feet"]["name"], feet_icon: items["feet"]["icon"], feet_quality: items["feet"]["quality"], feet_itemlvl: items["feet"]["itemLevel"], feet_stat: items["feet"]["stats"], finger_1: items["finger1"]["name"], finger_1_icon: items["finger1"]["icon"], finger_1_quality: items["finger1"]["quality"], finger_1_itemlvl: items["finger1"]["itemLevel"], finger_1_stat: items["finger1"]["stats"], finger_2: items["finger2"]["name"], finger_2_icon: items["finger2"]["icon"], finger_2_quality: items["finger2"]["quality"], finger_2_itemlvl: items["finger2"]["itemLevel"], finger_2_stat: items["finger2"]["stats"], trinket_1: items["trinket1"]["name"], trinket_1_icon: items["trinket1"]["icon"], trinket_1_quality: items["trinket1"]["quality"], trinket_1_itemlvl: items["trinket1"]["itemLevel"], trinket_1_stat: items["trinket1"]["stats"], trinket_2: items["trinket2"]["name"], trinket_2_icon: items["trinket2"]["icon"], trinket_2_quality: items["trinket2"]["quality"], trinket_2_itemlvl: items["trinket2"]["itemLevel"], trinket_2_stat: items["trinket2"]["stats"], main_hand: items["mainHand"]["name"], main_hand_icon: items["mainHand"]["icon"], main_hand_quality: items["mainHand"]["quality"], main_hand_itemlvl: items["mainHand"]["itemLevel"], main_hand_stat: items["mainHand"]["stats"], off_hand: items["offHand"]["name"], off_hand_icon: items["offHand"]["icon"], off_hand_quality: items["offHand"]["quality"], off_hand_itemlvl: items["offHand"]["itemLevel"], off_hand_stat: items["offHand"]["stats"])
 
-    binding.pry
+    # binding.pry
 
     @character.equipments << equipment
     @character.save
@@ -104,6 +105,10 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+
+  def new_character
+    #@user = current_user
   end
 end
 

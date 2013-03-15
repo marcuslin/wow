@@ -1,9 +1,11 @@
 Wow::Application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => 'users/registrations' }
 
-  devise_for :models
-
-  resources :users
+  resources :users do
+    member do
+      get 'new_character'
+    end
+  end
 
   root :to => 'users#index'
 
