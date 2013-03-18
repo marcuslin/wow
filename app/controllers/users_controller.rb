@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    binding.pry
+    #binding.pry
     user_input = params[:user]
 
     profile = Character.get_profile(user_input["realm_ids"], user_input["character_ids"])
@@ -84,15 +84,21 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    # 1) Move the code from the create method to here
+    # 2) In Chrome, figure out how to use the console: Right click on the element and select inspect element to see the raw html file.
+    # 3) Figure out what the realm and character fields are called on the webpage using the "inspect element" function.
+    # 4) Replace user_input["realm_ids"] and user_input["character_ids"] with the correct field names.
+    # 5) Try to solve the errors you got if any.
+
+    #respond_to do |format|
+    #  if @user.update_attributes(params[:user])
+    #    format.html { redirect_to @user, notice: 'User was successfully updated.' }
+    #    format.json { head :no_content }
+    #  else
+    #    format.html { render action: "edit" }
+    #    format.json { render json: @user.errors, status: :unprocessable_entity }
+    #  end
+    #end
   end
 
   # DELETE /users/1
