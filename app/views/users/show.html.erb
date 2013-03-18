@@ -2,18 +2,18 @@
 
 <p>
   <b>Name:</b>
-  <%= @user.user_name %>
+  <%= current_user.user_name %>
 </p>
 <p>
   <b>Realms:</b>
-  <% @user.realms.each do |r| %>
+  <% current_user.realms.each do |r| %>
     <%= "#{r.name}" %>
     <br>
   <% end %>
 </p>
 <p>
   <b>Characters:</b>
-  <% @user.characters.each do |c| %>
+  <% current_user.characters.each do |c| %>
     <%= "class: #{c.character_class}, name: #{c.name}, gender: #{c.gender}, level: #{c.level}, race: #{c.race}" %>
     <br>
     <p>
