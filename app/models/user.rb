@@ -9,5 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :realms, :characters, :user_name
   has_many :realms
   has_many :characters, :through => :realms, :dependent => :destroy
-
+  #
+  has_many :assignments
+  has_many :roles, :through => :assignments
 end

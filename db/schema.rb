@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305091742) do
+ActiveRecord::Schema.define(:version => 20130320104043) do
 
   create_table "character_equips", :force => true do |t|
     t.integer  "character_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(:version => 20130305091742) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "equipments", :force => true do |t|
+  create_table "equipment", :force => true do |t|
     t.string   "head"
     t.string   "head_icon"
     t.string   "head_quality"
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20130305091742) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "role"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
