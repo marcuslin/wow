@@ -16,7 +16,7 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
+<% if current_user && current_user.is_admin? %>
 <%= link_to 'New User', new_user_path %>
+<% end %>
+<br />
