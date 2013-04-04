@@ -65,10 +65,74 @@ class UsersController < ApplicationController
 
     items = profile["items"]
     #save character and equipment info
-    equipment = Equipment.new(character_id: @character.id, head: items["head"]["name"], head_icon: items["head"]["icon"], head_quality: items["head"]["quality"], head_itemlvl: items["head"]["itemLevel"], head_stat: items["head"]["stats"], neck: items["neck"]["name"], neck_icon: items["neck"]["icon"], neck_quality: items["neck"]["quality"], neck_itemlvl: items["neck"]["itemLevel"], neck_stat: items["neck"]["stats"], shoulder: items["shoulder"]["name"], shoulder_icon: items["shoulder"]["icon"], shoulder_quality: items["shoulder"]["quality"], shoulder_itemlvl: items["shoulder"]["itemLevel"], shoulder_stat: items["shoulder"]["stats"], back: items["back"]["name"], back_icon: items["back"]["icon"], back_quality: items["back"]["quality"], back_itemlvl: items["back"]["itemLevel"], back_stat: items["back"]["stats"], chest: items["chest"]["name"], chest_icon: items["chest"]["icon"], chest_quality: items["chest"]["quality"], chest_itemlvl: items["chest"]["itemLevel"], chest_stat: items["chest"]["stats"], wrist: items["wrist"]["name"], wrist_icon: items["wrist"]["icon"], wrist_quality: items["wrist"]["quality"], wrist_itemlvl: items["wrist"]["itemLevel"],wrist_stat: items["wrist"]["stats"], hands: items["hands"]["name"], hands_icon: items["hands"]["icon"], hands_quality: items["hands"]["quality"], hands_itemlvl: items["hands"]["itemLevel"], hands_stat: items["hands"]["stats"], waist: items["waist"]["name"], waist_icon: items["waist"]["icon"], waist_quality: items["waist"]["quality"], waist_itemlvl: items["waist"]["itemLevel"], waist_stat: items["waist"]["stats"], legs: items["legs"]["name"], legs_icon: items["legs"]["icon"], legs_quality: items["legs"]["quality"], legs_itemlvl: items["legs"]["itemLevel"], legs_stat: items["legs"]["stats"], feet: items["feet"]["name"], feet_icon: items["feet"]["icon"], feet_quality: items["feet"]["quality"], feet_itemlvl: items["feet"]["itemLevel"], feet_stat: items["feet"]["stats"], finger_1: items["finger1"]["name"], finger_1_icon: items["finger1"]["icon"], finger_1_quality: items["finger1"]["quality"], finger_1_itemlvl: items["finger1"]["itemLevel"], finger_1_stat: items["finger1"]["stats"], finger_2: items["finger2"]["name"], finger_2_icon: items["finger2"]["icon"], finger_2_quality: items["finger2"]["quality"], finger_2_itemlvl: items["finger2"]["itemLevel"], finger_2_stat: items["finger2"]["stats"], trinket_1: items["trinket1"]["name"], trinket_1_icon: items["trinket1"]["icon"], trinket_1_quality: items["trinket1"]["quality"], trinket_1_itemlvl: items["trinket1"]["itemLevel"], trinket_1_stat: items["trinket1"]["stats"], trinket_2: items["trinket2"]["name"], trinket_2_icon: items["trinket2"]["icon"], trinket_2_quality: items["trinket2"]["quality"], trinket_2_itemlvl: items["trinket2"]["itemLevel"], trinket_2_stat: items["trinket2"]["stats"], main_hand: items["mainHand"]["name"], main_hand_icon: items["mainHand"]["icon"], main_hand_quality: items["mainHand"]["quality"], main_hand_itemlvl: items["mainHand"]["itemLevel"], main_hand_stat: items["mainHand"]["stats"])
-     # , off_hand: items["offHand"]["name"], off_hand_icon: items["offHand"]["icon"], off_hand_quality: items["offHand"]["quality"], off_hand_itemlvl: items["offHand"]["itemLevel"], off_hand_stat: items["offHand"]["stats"])
 
-    @character.equipments << equipment
+    equips = []
+
+    unless items['head'].blank?
+      equips<<Equipment.new(equip_part: 'head', equip_name: items["head"]["name"], equip_icon: items["head"]["icon"], equip_quality: items["head"]["quality"], equip_itemlvl: items["head"]["itemLevel"], equip_stat: items["head"]["stats"])
+    end
+
+    unless items['neck'].blank?
+      equips<<Equipment.new(equip_part: 'neck', equip_name: items["neck"]["name"], equip_icon: items["neck"]["icon"], equip_quality: items["neck"]["quality"], equip_itemlvl: items["neck"]["itemLevel"], equip_stat: items["neck"]["stats"])
+    end
+
+    unless items['shoulder'].blank?
+      equips<<Equipment.new(equip_part: 'shoulder', equip_name: items["shoulder"]["name"], equip_icon: items["neck"]["icon"], equip_quality: items["neck"]["quality"], equip_itemlvl: items["neck"]["itemLevel"], equip_stat: items["neck"]["stats"])
+    end
+
+    unless items['back'].blank?
+      equips<<Equipment.new(equip_part: 'back', equip_name: items["back"]["name"], equip_icon: items["back"]["icon"], equip_quality: items["back"]["quality"], equip_itemlvl: items["back"]["itemLevel"], equip_stat: items["back"]["stats"])
+    end
+
+    unless items['chest'].blank?
+      equips<<Equipment.new(equip_part: 'chest', equip_name: items["chest"]["name"], equip_icon: items["chest"]["icon"], equip_quality: items["chest"]["quality"], equip_itemlvl: items["chest"]["itemLevel"], equip_stat: items["chest"]["stats"])
+    end
+
+    unless items['wrist'].blank?
+      equips<<Equipment.new(equip_part: 'wrist', equip_name: items["wrist"]["name"], equip_icon: items["wrist"]["icon"], equip_quality: items["wrist"]["quality"], equip_itemlvl: items["wrist"]["itemLevel"], equip_stat: items["wrist"]["stats"])
+    end
+
+    unless items['hands'].blank?
+      equips<<Equipment.new(equip_part: 'hands', equip_name: items["hands"]["name"], equip_icon: items["hands"]["icon"], equip_quality: items["hands"]["quality"], equip_itemlvl: items["hands"]["itemLevel"], equip_stat: items["hands"]["stats"])
+    end
+
+    unless items['waist'].blank?
+      equips<<Equipment.new(equip_part: 'waist', equip_name: items["waist"]["name"], equip_icon: items["waist"]["icon"], equip_quality: items["waist"]["quality"], equip_itemlvl: items["waist"]["itemLevel"], equip_stat: items["waist"]["stats"])
+    end
+
+    unless items['legs'].blank?
+      equips<<Equipment.new(equip_part: 'legs', equip_name: items["legs"]["name"], equip_icon: items["legs"]["icon"], equip_quality: items["legs"]["quality"], equip_itemlvl: items["legs"]["itemLevel"], equip_stat: items["legs"]["stats"])
+    end
+
+    unless items['feet'].blank?
+      equips<<Equipment.new(equip_part: 'feet', equip_name: items["feet"]["name"], equip_icon: items["feet"]["icon"], equip_quality: items["feet"]["quality"], equip_itemlvl: items["feet"]["itemLevel"], equip_stat: items["feet"]["stats"])
+    end
+
+    unless items['finger1'].blank?
+      equips<<Equipment.new(equip_part: 'finger1', equip_name: items["finger1"]["name"], equip_icon: items["finger1"]["icon"], equip_quality: items["finger1"]["quality"], equip_itemlvl: items["finger1"]["itemLevel"], equip_stat: items["finger1"]["stats"])
+    end
+
+    unless items['finger2'].blank?
+      equips<<Equipment.new(equip_part: 'finger2', equip_name: items["finger2"]["name"], equip_icon: items["finger2"]["icon"], equip_quality: items["finger2"]["quality"], equip_itemlvl: items["finger2"]["itemLevel"], equip_stat: items["finger2"]["stats"])
+    end
+
+    unless items['trinket1'].blank?
+      equips<<Equipment.new(equip_part: 'trinket1', equip_name: items["trinket1"]["name"], equip_icon: items["trinket1"]["icon"], equip_quality: items["trinket1"]["quality"], equip_itemlvl: items["trinket1"]["itemLevel"], equip_stat: items["trinket1"]["stats"])
+    end
+
+    unless items['trinket2'].blank?
+      equips<<Equipment.new(equip_part: 'trinket2', equip_name: items["trinket2"]["name"], equip_icon: items["trinket2"]["icon"], equip_quality: items["trinket2"]["quality"], equip_itemlvl: items["trinket2"]["itemLevel"], equip_stat: items["trinket2"]["stats"])
+    end
+
+    unless items['mainHand'].blank?
+      equips<<Equipment.new(equip_part: 'mainHand', equip_name: items["mainHand"]["name"], equip_icon: items["mainHand"]["icon"], equip_quality: items["mainHand"]["quality"], equip_itemlvl: items["mainHand"]["itemLevel"], equip_stat: items["mainHand"]["stats"])
+    end
+
+    unless items['offHand'].blank?
+      equips<<Equipment.new(equip_part: 'offHand', equip_name: items["offHand"]["name"], equip_icon: items["offHand"]["icon"], equip_quality: items["offHand"]["quality"], equip_itemlvl: items["offHand"]["itemLevel"], equip_stat: items["offHand"]["stats"])
+    end
+
+    @character.equipments<<equips
     @character.save
 
     respond_to do |format|
