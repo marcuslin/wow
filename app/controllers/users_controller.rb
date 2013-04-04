@@ -68,71 +68,11 @@ class UsersController < ApplicationController
 
     equips = []
 
-    unless items['head'].blank?
-      equips<<Equipment.new(equip_part: 'head', equip_name: items["head"]["name"], equip_icon: items["head"]["icon"], equip_quality: items["head"]["quality"], equip_itemlvl: items["head"]["itemLevel"], equip_stat: items["head"]["stats"])
+    items.keys.each do |k|
+      equips << Equipment.new(equip_part: items[k], equip_name: items[k]["name"], equip_icon: items[k]["icon"], equip_quality: items[k]["quality"], equip_itemlvl: items[k]["itemLevel"], equip_stat: items[k]["stats"])unless items[k].blank?
     end
 
-    unless items['neck'].blank?
-      equips<<Equipment.new(equip_part: 'neck', equip_name: items["neck"]["name"], equip_icon: items["neck"]["icon"], equip_quality: items["neck"]["quality"], equip_itemlvl: items["neck"]["itemLevel"], equip_stat: items["neck"]["stats"])
-    end
-
-    unless items['shoulder'].blank?
-      equips<<Equipment.new(equip_part: 'shoulder', equip_name: items["shoulder"]["name"], equip_icon: items["neck"]["icon"], equip_quality: items["neck"]["quality"], equip_itemlvl: items["neck"]["itemLevel"], equip_stat: items["neck"]["stats"])
-    end
-
-    unless items['back'].blank?
-      equips<<Equipment.new(equip_part: 'back', equip_name: items["back"]["name"], equip_icon: items["back"]["icon"], equip_quality: items["back"]["quality"], equip_itemlvl: items["back"]["itemLevel"], equip_stat: items["back"]["stats"])
-    end
-
-    unless items['chest'].blank?
-      equips<<Equipment.new(equip_part: 'chest', equip_name: items["chest"]["name"], equip_icon: items["chest"]["icon"], equip_quality: items["chest"]["quality"], equip_itemlvl: items["chest"]["itemLevel"], equip_stat: items["chest"]["stats"])
-    end
-
-    unless items['wrist'].blank?
-      equips<<Equipment.new(equip_part: 'wrist', equip_name: items["wrist"]["name"], equip_icon: items["wrist"]["icon"], equip_quality: items["wrist"]["quality"], equip_itemlvl: items["wrist"]["itemLevel"], equip_stat: items["wrist"]["stats"])
-    end
-
-    unless items['hands'].blank?
-      equips<<Equipment.new(equip_part: 'hands', equip_name: items["hands"]["name"], equip_icon: items["hands"]["icon"], equip_quality: items["hands"]["quality"], equip_itemlvl: items["hands"]["itemLevel"], equip_stat: items["hands"]["stats"])
-    end
-
-    unless items['waist'].blank?
-      equips<<Equipment.new(equip_part: 'waist', equip_name: items["waist"]["name"], equip_icon: items["waist"]["icon"], equip_quality: items["waist"]["quality"], equip_itemlvl: items["waist"]["itemLevel"], equip_stat: items["waist"]["stats"])
-    end
-
-    unless items['legs'].blank?
-      equips<<Equipment.new(equip_part: 'legs', equip_name: items["legs"]["name"], equip_icon: items["legs"]["icon"], equip_quality: items["legs"]["quality"], equip_itemlvl: items["legs"]["itemLevel"], equip_stat: items["legs"]["stats"])
-    end
-
-    unless items['feet'].blank?
-      equips<<Equipment.new(equip_part: 'feet', equip_name: items["feet"]["name"], equip_icon: items["feet"]["icon"], equip_quality: items["feet"]["quality"], equip_itemlvl: items["feet"]["itemLevel"], equip_stat: items["feet"]["stats"])
-    end
-
-    unless items['finger1'].blank?
-      equips<<Equipment.new(equip_part: 'finger1', equip_name: items["finger1"]["name"], equip_icon: items["finger1"]["icon"], equip_quality: items["finger1"]["quality"], equip_itemlvl: items["finger1"]["itemLevel"], equip_stat: items["finger1"]["stats"])
-    end
-
-    unless items['finger2'].blank?
-      equips<<Equipment.new(equip_part: 'finger2', equip_name: items["finger2"]["name"], equip_icon: items["finger2"]["icon"], equip_quality: items["finger2"]["quality"], equip_itemlvl: items["finger2"]["itemLevel"], equip_stat: items["finger2"]["stats"])
-    end
-
-    unless items['trinket1'].blank?
-      equips<<Equipment.new(equip_part: 'trinket1', equip_name: items["trinket1"]["name"], equip_icon: items["trinket1"]["icon"], equip_quality: items["trinket1"]["quality"], equip_itemlvl: items["trinket1"]["itemLevel"], equip_stat: items["trinket1"]["stats"])
-    end
-
-    unless items['trinket2'].blank?
-      equips<<Equipment.new(equip_part: 'trinket2', equip_name: items["trinket2"]["name"], equip_icon: items["trinket2"]["icon"], equip_quality: items["trinket2"]["quality"], equip_itemlvl: items["trinket2"]["itemLevel"], equip_stat: items["trinket2"]["stats"])
-    end
-
-    unless items['mainHand'].blank?
-      equips<<Equipment.new(equip_part: 'mainHand', equip_name: items["mainHand"]["name"], equip_icon: items["mainHand"]["icon"], equip_quality: items["mainHand"]["quality"], equip_itemlvl: items["mainHand"]["itemLevel"], equip_stat: items["mainHand"]["stats"])
-    end
-
-    unless items['offHand'].blank?
-      equips<<Equipment.new(equip_part: 'offHand', equip_name: items["offHand"]["name"], equip_icon: items["offHand"]["icon"], equip_quality: items["offHand"]["quality"], equip_itemlvl: items["offHand"]["itemLevel"], equip_stat: items["offHand"]["stats"])
-    end
-
-    @character.equipments<<equips
+    @character.equipments << equips
     @character.save
 
     respond_to do |format|

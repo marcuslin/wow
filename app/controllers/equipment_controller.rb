@@ -1,6 +1,8 @@
 class EquipmentController < ApplicationController
   def show
-    @equipment = Equipment.all
+    equipment = params
+
+    @equips = Equipment.where(id: equipment['id'])[0]
 
     respond_to do |format|
       format.html # show.html.erb

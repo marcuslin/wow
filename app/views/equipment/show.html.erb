@@ -1,8 +1,11 @@
 <p id="notice"><%= notice %></p>
 
   <p>
-    <%= @equipment %>
-      <br>
+    <%= "part: #{@equips.equip_part}" %>
+    <p><%= "name: #{@equips.equip_name}" %></p>
+    <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
+    <p><%= "stat: #{@equips.equip_stat}" %></p>
+    <br>
   </p>
 
 <%= link_to 'Back', users_path %>

@@ -18,7 +18,7 @@
     <br>
     <p>
       <b>Equipments:</b>
-      <% c.character_equips.includes(:equipment).each do |e| %>
+      <p><% c.character_equips.includes(:equipment).each do |e| %></p>
         <%= link_to e.equipment.equip_name, equipment_path(e.equipment_id) %>
         <br>
       <% end %>

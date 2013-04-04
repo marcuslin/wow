@@ -11,8 +11,8 @@ class Character < ActiveRecord::Base
 
   def self.get_profile(realm, charactername)
     url = "http://tw.battle.net/api/wow/character/#{realm}/#{charactername}?fields=items"
-    JSON.parse(open(url).read)
-    #JSON.parse(File.open("#{Rails.root}/app/models/burningangel.json").read)
+    #JSON.parse(open(url).read)
+    JSON.parse(File.open("#{Rails.root}/app/models/burningangel.json").read)
   end
 end
 
