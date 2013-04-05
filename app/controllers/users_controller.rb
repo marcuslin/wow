@@ -1,6 +1,7 @@
+# encoding: UTF-8
 class UsersController < ApplicationController
   load_and_authorize_resource
-  # encoding: UTF-8
+
 
   # GET /users
   # GET /users.json
