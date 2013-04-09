@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
       next if k == "averageItemLevel" || k == "averageItemLevelEquipped"
 
-      equips << Equipment.new(equip_part: k, equip_name: items[k]["name"], equip_icon: items[k]["icon"], equip_quality: items[k]["quality"], equip_itemlvl: items[k]["itemLevel"], equip_stat: items[k]["stats"])unless items[k].blank?
+      equips << Equipment.new(equip_part: k, equip_name: items[k]["name"], equip_icon: items[k]["icon"], equip_quality: items[k]["quality"], equip_itemlvl: items[k]["itemLevel"], equip_stat: items[k]["stats"], equip_num: items[k]["id"])unless items[k].blank?
     end
 
     @character.equipments << equips
