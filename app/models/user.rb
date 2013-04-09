@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :assignments
 
   def is_admin?
-    self.admin == true
+    # self.admin == true is redundant
+    self.admin
   end
 end

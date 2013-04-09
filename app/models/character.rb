@@ -12,7 +12,7 @@ class Character < ActiveRecord::Base
   def self.get_profile(realm, charactername)
     url = "http://tw.battle.net/api/wow/character/#{realm}/#{charactername}?fields=items"
     encoded_uri = URI.encode(url)
-    binding.pry
+    # binding.pry
     JSON.parse(open(encoded_uri).read)
     # JSON.parse(File.open("#{Rails.root}/app/models/burningangel.json").read)
   end
