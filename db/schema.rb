@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403084223) do
+ActiveRecord::Schema.define(:version => 20130409092453) do
 
   create_table "character_equips", :force => true do |t|
     t.integer  "character_id"
@@ -47,10 +47,11 @@ ActiveRecord::Schema.define(:version => 20130403084223) do
     t.string   "equip_stat"
     t.string   "equip_part"
     t.string   "equip_name"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.integer  "character_id"
     t.integer  "equip_num"
+    t.integer  "equip_counts",  :default => 0
   end
 
   create_table "realms", :force => true do |t|
