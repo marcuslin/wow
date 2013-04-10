@@ -3,7 +3,7 @@ require 'open-uri'
 class Character < ActiveRecord::Base
   has_many :realms
   has_many :character_equips
-  has_many :equipments, :through => :character_equips, :counter_cache => :equip_counts
+  has_many :equipments, :through => :character_equips
   has_many :users, :through => :realms, :dependent => :destroy
 
   # class is a reserved word in rails, so we renamed the "class" column.

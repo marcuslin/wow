@@ -75,27 +75,33 @@ class UsersController < ApplicationController
       next if k == "averageItemLevel" || k == "averageItemLevelEquipped"
 
       unless items[k].blank?
-        equip = Equipment.new(
-          equip_part: k,
-          equip_name: items[k]["name"],
-          equip_icon: items[k]["icon"],
-          equip_quality: items[k]["quality"],
-          equip_itemlvl: items[k]["itemLevel"],
-          equip_stat: items[k]["stats"],
-          equip_num: items[k]["id"])
-      end
+        equip = Equipment.where(equip_name: items[k]["name"]).first_or_create do |e|
+          e.equip_part = k
+          e.equip_icon = items[k]["icon"]
+          e.equip_quality = items[k]["quality"]
+          e.equip_itemlvl = items[k]["itemLevel"]
+          e.equip_stat = items[k]["stats"]
+          e.equip_num = items[k]["id"]
+        end
 
-      equips << equip if equip.valid?
+        # equip = Equipment.new(
+        #   equip_part: k,
+        #   equip_name: items[k]["name"],
+        #   equip_icon: items[k]["icon"],
+        #   equip_quality: items[k]["quality"],
+        #   equip_itemlvl: items[k]["itemLevel"],
+        #   equip_stat: items[k]["stats"],
+        #   equip_num: items[k]["id"])
+      end
+      equips << equip
     end
 
-    # equips_to_add = []
-    # equips.each do |e|
-    #   equip = Character.equipments.build(e)
-    #   equips_to_add << equip if equip.valid?
-    # end
+    equips.each do |e|
+      CharacterEquip.where(character_id: current_user.id, equipment_id: e.id).first_or_create
+    end
 
-    @character.equipments << equips
-    @character.save
+    # @character.equipments << equips
+    # @character.save
 
     respond_to do |format|
       if current_user.save
