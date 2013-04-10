@@ -5,6 +5,6 @@ class Equipment < ActiveRecord::Base
 
   attr_accessible :equip_part, :equip_name, :equip_icon, :equip_quality, :equip_itemlvl, :equip_stat, :character_id, :equip_num, :equip_counts
 
-  validates :equip_num, :uniqueness => true
+  validates :equip_name, :uniqueness => true
 end
 
