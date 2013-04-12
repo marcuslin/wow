@@ -5,6 +5,7 @@
     <p><%= "name: #{@equips.equip_name}" %></p>
     <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
     <p><%= "stat: #{@equips.equip_stat}" %></p>
+    <p><%= "percentage: #{number_to_percentage(@equip_calc, precision: 0)}" %></p>
     <br>
   </p>
 

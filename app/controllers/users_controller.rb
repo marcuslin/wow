@@ -82,6 +82,7 @@ class UsersController < ApplicationController
           e.equip_itemlvl = items[k]["itemLevel"]
           e.equip_stat = items[k]["stats"]
           e.equip_num = items[k]["id"]
+          e.equip_class = profile["class"]
         end
 
         # equip = Equipment.new(
