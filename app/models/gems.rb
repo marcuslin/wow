@@ -2,8 +2,9 @@
 require 'open-uri'
 class Gems < ActiveRecord::Base
   has_many :equip_gems
+  has_many :equipments, :through => :equip_gems
 
-  attr_accessible :gem_name, :gem_data, :gem_icon, :gem_type
+  attr_accessible :gem_name, :gem_data, :gem_icon, :gem_type, :gem_num
 
   def self.get_gemdata(gemnum)
     url = "http://tw.battle.net/api/wow/item/#{gemnum}"

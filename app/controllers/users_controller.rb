@@ -88,16 +88,16 @@ class UsersController < ApplicationController
 
         unless items[k]["tooltipParams"]["gem0"].blank?
           gems_0 = Gems.get_gemdata(items[k]["tooltipParams"]["gem0"])
-            gem_data = Gems.where(gem_name: gems_0["name"]).first_or_create do |g|
+            gems_data0 = Gems.where(gem_name: gems_0["name"]).first_or_create do |g|
               g.gem_icon = gems_0["icon"]
               g.gem_num = gems_0["id"]
               g.gem_data = gems_0["gemInfo"]["bonus"]
               g.gem_type = gems_0["gemInfo"]["type"]
             end
-          binding.pry
+          # binding.pry
           unless items[k]["tooltipParams"]["gem1"].blank?
             gems_1 = Gems.get_gemdata(items[k]["tooltipParams"]["gem1"])
-              gems_data = Gems.where(gem_name: gems_1["name"]).first_or_create do |g|
+              gems_data1 = Gems.where(gem_name: gems_1["name"]).first_or_create do |g|
                 g.gem_icon = gems_1["icon"]
                 g.gem_num = gems_1["id"]
                 g.gem_data = gems_1["gemInfo"]["bonus"]
@@ -114,14 +114,13 @@ class UsersController < ApplicationController
         #   equip_stat: items[k]["stats"],
         #   equip_num: items[k]["id"])
       end
-      equips << equip
-      # binding.pry
-    end
 
-    equips.each do |e|
-      CharacterEquip.where(character_id: current_user.id, equipment_id: e.id).first_or_create
-    end
+      #binding.pry
+      CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
+      EquipGem.where(equipment_id: equip.id, id: gems_data0.id).first_or_create
+      #EquipGem.where(equipment_id: equip.id, id: gems_data1.id).first_or_create
 
+    end
 
     # @character.equipments << equips
     # @character.save

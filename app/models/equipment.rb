@@ -1,11 +1,12 @@
 class Equipment < ActiveRecord::Base
   set_table_name 'equipments'
   has_many :character_equips
-  has_many :characters
+  has_many :characters, :through => :character_equips
+  has_many :equip_gems
   has_many :gems, :through => :equip_gems
 
   attr_accessible :equip_part, :equip_name, :equip_icon, :equip_quality, :equip_itemlvl, :equip_stat, :character_id,
-                  :equip_num, :equip_counts, :equip_class
+                  :equip_num, :equip_counts, :equip_class, :gem0_num, :gem1_num
 
   attr_accessor :percentage
 
