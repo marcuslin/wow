@@ -69,7 +69,6 @@ class UsersController < ApplicationController
     #save character and equipment info
 
     equips = []
-
     items.keys.each do |k|
 
       next if k == "averageItemLevel" || k == "averageItemLevelEquipped"
@@ -83,9 +82,30 @@ class UsersController < ApplicationController
           e.equip_stat = items[k]["stats"]
           e.equip_num = items[k]["id"]
           e.equip_class = profile["class"]
+          e.gem0_num = items[k]["tooltipParams"]["gem0"]
+          e.gem1_num = items[k]["tooltipParams"]["gem1"]
         end
 
-        # equip = Equipment.new(
+        unless items[k]["tooltipParams"]["gem0"].blank?
+          gems_0 = Gems.get_gemdata(items[k]["tooltipParams"]["gem0"])
+            gem_data = Gems.where(gem_name: gems_0["name"]).first_or_create do |g|
+              g.gem_icon = gems_0["icon"]
+              g.gem_num = gems_0["id"]
+              g.gem_data = gems_0["gemInfo"]["bonus"]
+              g.gem_type = gems_0["gemInfo"]["type"]
+            end
+          binding.pry
+          unless items[k]["tooltipParams"]["gem1"].blank?
+            gems_1 = Gems.get_gemdata(items[k]["tooltipParams"]["gem1"])
+              gems_data = Gems.where(gem_name: gems_1["name"]).first_or_create do |g|
+                g.gem_icon = gems_1["icon"]
+                g.gem_num = gems_1["id"]
+                g.gem_data = gems_1["gemInfo"]["bonus"]
+                g.gem_type = gems_1["gemInfo"]["type"]
+              end
+          end
+        end
+        # equip = Equipment.new
         #   equip_part: k,
         #   equip_name: items[k]["name"],
         #   equip_icon: items[k]["icon"],
@@ -95,11 +115,13 @@ class UsersController < ApplicationController
         #   equip_num: items[k]["id"])
       end
       equips << equip
+      # binding.pry
     end
 
     equips.each do |e|
       CharacterEquip.where(character_id: current_user.id, equipment_id: e.id).first_or_create
     end
+
 
     # @character.equipments << equips
     # @character.save

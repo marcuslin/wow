@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130411061746) do
+ActiveRecord::Schema.define(:version => 20130415062352) do
 
   create_table "character_equips", :force => true do |t|
     t.integer  "character_id"
@@ -40,6 +40,13 @@ ActiveRecord::Schema.define(:version => 20130411061746) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "equip_gem", :force => true do |t|
+    t.integer  "gem_id"
+    t.integer  "equipment_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "equipments", :force => true do |t|
     t.string   "equip_icon"
     t.string   "equip_quality"
@@ -52,6 +59,16 @@ ActiveRecord::Schema.define(:version => 20130411061746) do
     t.integer  "equip_num"
     t.integer  "equip_counts",  :default => 0
     t.string   "equip_class"
+    t.string   "gem0_num"
+    t.string   "gem1_num"
+  end
+
+  create_table "gems", :force => true do |t|
+    t.string "gem_name"
+    t.string "gem_icon"
+    t.string "gem_data"
+    t.string "gem_type"
+    t.string "gem_num"
   end
 
   create_table "realms", :force => true do |t|
