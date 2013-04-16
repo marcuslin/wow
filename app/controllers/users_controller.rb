@@ -84,27 +84,29 @@ class UsersController < ApplicationController
           e.equip_class = profile["class"]
           e.gem0_num = items[k]["tooltipParams"]["gem0"]
           e.gem1_num = items[k]["tooltipParams"]["gem1"]
-        end
+      end
+      # get equipment stats back to db
 
-        unless items[k]["tooltipParams"]["gem0"].blank?
-          gems_0 = Gems.get_gemdata(items[k]["tooltipParams"]["gem0"])
-            gems_data0 = Gems.where(gem_name: gems_0["name"]).first_or_create do |g|
-              g.gem_icon = gems_0["icon"]
-              g.gem_num = gems_0["id"]
-              g.gem_data = gems_0["gemInfo"]["bonus"]
-              g.gem_type = gems_0["gemInfo"]["type"]
-            end
-          # binding.pry
-          unless items[k]["tooltipParams"]["gem1"].blank?
-            gems_1 = Gems.get_gemdata(items[k]["tooltipParams"]["gem1"])
-              gems_data1 = Gems.where(gem_name: gems_1["name"]).first_or_create do |g|
-                g.gem_icon = gems_1["icon"]
-                g.gem_num = gems_1["id"]
-                g.gem_data = gems_1["gemInfo"]["bonus"]
-                g.gem_type = gems_1["gemInfo"]["type"]
-              end
+      unless items[k]["tooltipParams"]["gem0"].blank?
+        gems_0 = Gems.get_gemdata(items[k]["tooltipParams"]["gem0"])
+          gems_data0 = Gems.where(gem_name: gems_0["name"]).first_or_create do |g|
+            g.gem_icon = gems_0["icon"]
+            g.gem_num = gems_0["id"]
+            g.gem_data = gems_0["gemInfo"]["bonus"]
+            g.gem_type = gems_0["gemInfo"]["type"]
           end
+        unless items[k]["tooltipParams"]["gem1"].blank?
+          gems_1 = Gems.get_gemdata(items[k]["tooltipParams"]["gem1"])
+            gems_data1 = Gems.where(gem_name: gems_1["name"]).first_or_create do |g|
+              g.gem_icon = gems_1["icon"]
+              g.gem_num = gems_1["id"]
+              g.gem_data = gems_1["gemInfo"]["bonus"]
+              g.gem_type = gems_1["gemInfo"]["type"]
+            end
         end
+      end
+      # get gem data back to db
+
         # equip = Equipment.new
         #   equip_part: k,
         #   equip_name: items[k]["name"],
@@ -115,11 +117,14 @@ class UsersController < ApplicationController
         #   equip_num: items[k]["id"])
       end
 
-      #binding.pry
       CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
-      EquipGem.where(equipment_id: equip.id, id: gems_data0.id).first_or_create
-      #EquipGem.where(equipment_id: equip.id, id: gems_data1.id).first_or_create
+      # saving data to character_equips(bridge table)
 
+      EquipGem.where(equipment_id: equip.id, gem_id: gems_data0.id).first_or_create
+        unless gems_data1.id.blank?
+          EquipGem.where(equipment_id: equip.id, gem_id: gems_data1.id).first_or_create
+        end
+      # saving data to equip_gems(bridge table)
     end
 
     # @character.equipments << equips
