@@ -88,24 +88,26 @@ class UsersController < ApplicationController
       # get equipment stats back to db
 
       unless items[k]["tooltipParams"]["gem0"].blank?
-        gems_0 = Gems.get_gemdata(items[k]["tooltipParams"]["gem0"])
-          gems_data0 = Gems.where(gem_name: gems_0["name"]).first_or_create do |g|
+        gems_0 = Jewels.get_gemdata(items[k]["tooltipParams"]["gem0"])
+          gems_data0 = Jewels.where(gem_name: gems_0["name"]).first_or_create do |g|
             g.gem_icon = gems_0["icon"]
             g.gem_num = gems_0["id"]
             g.gem_data = gems_0["gemInfo"]["bonus"]
-            g.gem_type = gems_0["gemInfo"]["type"]
+            g.gem_type = gems_0["gemInfo"]["type"]["type"]
           end
         unless items[k]["tooltipParams"]["gem1"].blank?
-          gems_1 = Gems.get_gemdata(items[k]["tooltipParams"]["gem1"])
-            gems_data1 = Gems.where(gem_name: gems_1["name"]).first_or_create do |g|
+          gems_1 = Jewels.get_gemdata(items[k]["tooltipParams"]["gem1"])
+            gems_data1 = Jewels.where(gem_name: gems_1["name"]).first_or_create do |g|
               g.gem_icon = gems_1["icon"]
               g.gem_num = gems_1["id"]
               g.gem_data = gems_1["gemInfo"]["bonus"]
-              g.gem_type = gems_1["gemInfo"]["type"]
+              g.gem_type = gems_1["gemInfo"]["type"]["type"]
             end
+        EquipGem.where(equipment_id: equip.id, gem_id: gems_data0.id).first_or_create
+        EquipGem.where(equipment_id: equip.id, gem_id: gems_data1.id).first_or_create
         end
       end
-      # get gem data back to db
+      # get gem data back to db, and saving data to equip_gems(bridge table)
 
         # equip = Equipment.new
         #   equip_part: k,
@@ -119,12 +121,6 @@ class UsersController < ApplicationController
 
       CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
       # saving data to character_equips(bridge table)
-
-      EquipGem.where(equipment_id: equip.id, gem_id: gems_data0.id).first_or_create
-        unless gems_data1.id.blank?
-          EquipGem.where(equipment_id: equip.id, gem_id: gems_data1.id).first_or_create
-        end
-      # saving data to equip_gems(bridge table)
     end
 
     # @character.equipments << equips

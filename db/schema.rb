@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416012009) do
+ActiveRecord::Schema.define(:version => 20130417084434) do
 
   create_table "character_equips", :force => true do |t|
     t.integer  "character_id"
@@ -63,12 +63,13 @@ ActiveRecord::Schema.define(:version => 20130416012009) do
     t.string   "gem1_num"
   end
 
-  create_table "gems", :force => true do |t|
-    t.string "gem_name"
-    t.string "gem_icon"
-    t.string "gem_data"
-    t.string "gem_type"
-    t.string "gem_num"
+  create_table "jewels", :force => true do |t|
+    t.string  "gem_name"
+    t.string  "gem_icon"
+    t.string  "gem_data"
+    t.string  "gem_type"
+    t.string  "gem_num"
+    t.integer "gem_counts", :default => 0
   end
 
   create_table "realms", :force => true do |t|
