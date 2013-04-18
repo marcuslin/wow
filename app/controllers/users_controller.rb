@@ -88,24 +88,29 @@ class UsersController < ApplicationController
       # get equipment stats back to db
 
       unless items[k]["tooltipParams"]["gem0"].blank?
-        gems_0 = Jewels.get_gemdata(items[k]["tooltipParams"]["gem0"])
-          gems_data0 = Jewels.where(gem_name: gems_0["name"]).first_or_create do |g|
-            g.gem_icon = gems_0["icon"]
-            g.gem_num = gems_0["id"]
-            g.gem_data = gems_0["gemInfo"]["bonus"]
-            g.gem_type = gems_0["gemInfo"]["type"]["type"]
-          end
-        unless items[k]["tooltipParams"]["gem1"].blank?
-          gems_1 = Jewels.get_gemdata(items[k]["tooltipParams"]["gem1"])
-            gems_data1 = Jewels.where(gem_name: gems_1["name"]).first_or_create do |g|
-              g.gem_icon = gems_1["icon"]
-              g.gem_num = gems_1["id"]
-              g.gem_data = gems_1["gemInfo"]["bonus"]
-              g.gem_type = gems_1["gemInfo"]["type"]["type"]
-            end
-        EquipGem.where(equipment_id: equip.id, gem_id: gems_data0.id).first_or_create
-        EquipGem.where(equipment_id: equip.id, gem_id: gems_data1.id).first_or_create
+        gems_0 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem0"])
+        gems_data0 = Jewel.where(gem_name: gems_0["name"]).first_or_create do |g|
+          g.gem_icon = gems_0["icon"]
+          g.gem_num = gems_0["id"]
+          g.gem_data = gems_0["gemInfo"]["bonus"]
+          g.gem_type = gems_0["gemInfo"]["type"]["type"]
         end
+        equip.jewels << gems_data0
+        equip.save
+        # EquipGem.where(gem_id: gems_data0.id, equipment_id: equip.id).first_or_create
+      end
+
+      unless items[k]["tooltipParams"]["gem1"].blank?
+        gems_1 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem1"])
+        gems_data1 = Jewel.where(gem_name: gems_1["name"]).first_or_create do |g|
+          g.gem_icon = gems_1["icon"]
+          g.gem_num = gems_1["id"]
+          g.gem_data = gems_1["gemInfo"]["bonus"]
+          g.gem_type = gems_1["gemInfo"]["type"]["type"]
+        end
+        equip.jewels << gems_data1
+        equip.save
+        # EquipGem.where(gem_id: gems_data1.id, equipment_id: equip.id).first_or_create
       end
       # get gem data back to db, and saving data to equip_gems(bridge table)
 

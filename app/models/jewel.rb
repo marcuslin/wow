@@ -1,6 +1,6 @@
 # encoding: UTF-8
 require 'open-uri'
-class Jewels < ActiveRecord::Base
+class Jewel < ActiveRecord::Base
   has_many :equip_gems
   has_many :equipments, :through => :equip_gems
 
