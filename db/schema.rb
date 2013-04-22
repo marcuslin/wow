@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418015629) do
+ActiveRecord::Schema.define(:version => 20130422161933) do
 
   create_table "character_equips", :force => true do |t|
     t.integer  "character_id"
@@ -40,6 +40,21 @@ ActiveRecord::Schema.define(:version => 20130418015629) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "enchants", :force => true do |t|
+    t.string   "enchant_num"
+    t.string   "enchant_name"
+    t.string   "enchant_icon"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "equip_enchants", :force => true do |t|
+    t.integer  "enchant_id"
+    t.integer  "equipment_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "equip_gems", :force => true do |t|
     t.integer  "jewel_id"
     t.integer  "equipment_id"
@@ -59,17 +74,17 @@ ActiveRecord::Schema.define(:version => 20130418015629) do
     t.integer  "equip_num"
     t.integer  "equip_counts",  :default => 0
     t.string   "equip_class"
-    t.string   "gem0_num"
-    t.string   "gem1_num"
   end
 
   create_table "jewels", :force => true do |t|
-    t.string  "gem_name"
-    t.string  "gem_icon"
-    t.string  "gem_data"
-    t.string  "gem_type"
-    t.string  "gem_num"
-    t.integer "gem_counts", :default => 0
+    t.string   "gem_name"
+    t.string   "gem_icon"
+    t.string   "gem_data"
+    t.string   "gem_type"
+    t.string   "gem_num"
+    t.integer  "gem_counts", :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "realms", :force => true do |t|

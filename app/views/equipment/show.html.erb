@@ -6,6 +6,11 @@
     <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
     <p><%= "stat: #{@equips.equip_stat}" %></p>
     <p><%= "percentage: #{number_to_percentage(@equip_calc, precision: 0)}" %></p>
+
+    <p><% @jewel_calc.keys.each do |k| %></p>
+        <p><%= "gem name: #{k}, owns by: #{@jewel_calc[k][:owns_by]}
+        people, ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
+    <p><% end %></p>
     <br>
   </p>
 
