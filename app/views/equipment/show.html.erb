@@ -8,20 +8,13 @@
     <p><% stats = JSON.parse(@equips.equip_stat) %></p>
       <p><% stats.each do |r| %></p>
 
-        <p><% if r['reforgedAmount'].present? || r['reforged'] %></p>
-          <p><% @ref_from = r['stat'] %></p>
-          <p><% @ref_to = r['stat'] %></p>
+        <p><% if r['reforgedAmount'].present? %></p>
+          <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge to: #{stats.last['stat']}" %></p>
+        <p><% elsif r['reforged'] %></p>
+          <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge from: #{stats.select{|s| s.has_key?('reforgedAmount')}[0]['stat']}" %></p>
+        <p><% else %></p>
+          <p><%= "stat: #{r['stat']}, amount: #{r['amount']}" %></p>
         <p><% end %></p>
-
-          <p><% if r['reforgedAmount'].present? %></p>
-            <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge to: #{@ref_to}" %></p>
-          <p><% elsif r['reforged'] %></p>
-            <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge from: #{@ref_from}" %></p>
-          <p><% else %></p>
-            <p><%= "stat: #{r['stat']}, amount: #{r['amount']}" %></p>
-          <p><% end %></p>
-
-
       <p><% end %></p>
 
     <p><% @jewel_calc.keys.each do |k| %></p>
