@@ -4,12 +4,29 @@
     <%= "part: #{@equips.equip_part}" %>
     <p><%= "name: #{@equips.equip_name}" %></p>
     <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
-    <p><%= "stat: #{@equips.equip_stat}" %></p>
     <p><%= "percentage: #{number_to_percentage(@equip_calc, precision: 0)}" %></p>
+    <p><% stats = JSON.parse(@equips.equip_stat) %></p>
+      <p><% stats.each do |r| %></p>
+
+        <p><% if r['reforgedAmount'].present? || r['reforged'] %></p>
+          <p><% @ref_from = r['stat'] %></p>
+          <p><% @ref_to = r['stat'] %></p>
+        <p><% end %></p>
+
+          <p><% if r['reforgedAmount'].present? %></p>
+            <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge to: #{@ref_to}" %></p>
+          <p><% elsif r['reforged'] %></p>
+            <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge from: #{@ref_from}" %></p>
+          <p><% else %></p>
+            <p><%= "stat: #{r['stat']}, amount: #{r['amount']}" %></p>
+          <p><% end %></p>
+
+
+      <p><% end %></p>
 
     <p><% @jewel_calc.keys.each do |k| %></p>
-        <p><%= "gem name: #{k}, owns by: #{@jewel_calc[k][:owns_by]}
-        people, ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
+    <p><%= "gem name: #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
+        ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
     <p><% end %></p>
     <br>
   </p>

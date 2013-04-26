@@ -79,23 +79,27 @@ class UsersController < ApplicationController
           e.equip_icon = items[k]["icon"]
           e.equip_quality = items[k]["quality"]
           e.equip_itemlvl = items[k]["itemLevel"]
-          e.equip_stat = items[k]["stats"]
           e.equip_num = items[k]["id"]
           e.equip_class = profile["class"]
+          stat = items[k]["stats"]
+          e.equip_stat = stat.to_json
           # e.gem0_num = items[k]["tooltipParams"]["gem0"]
           # e.gem1_num = items[k]["tooltipParams"]["gem1"]
+        end
       end
       # get equipment stats back to db
 
+      # binding.pry
+
       unless items[k]["tooltipParams"]["gem0"].blank?
         gems_0 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem0"])
-        @gems_data0 = Jewel.where(gem_name: gems_0["name"]).first_or_create do |g|
+        gems_data0 = Jewel.where(gem_name: gems_0["name"]).first_or_create do |g|
           g.gem_icon = gems_0["icon"]
           g.gem_num = gems_0["id"]
           g.gem_data = gems_0["gemInfo"]["bonus"]
           g.gem_type = gems_0["gemInfo"]["type"]["type"]
         end
-        equip.jewels << @gems_data0
+        equip.jewels << gems_data0
         equip.save
         # EquipGem.where(gem_id: gems_data0.id, equipment_id: equip.id).first_or_create
       end
@@ -122,7 +126,6 @@ class UsersController < ApplicationController
         #   equip_itemlvl: items[k]["itemLevel"],
         #   equip_stat: items[k]["stats"],
         #   equip_num: items[k]["id"])
-      end
 
       CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
       # saving data to character_equips(bridge table)
