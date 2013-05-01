@@ -8,7 +8,14 @@
 </head>
 <body>
 
-<%= render :partial => "common/user_nav" %>
+<div class="header navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <%= render :partial => "common/user_nav" %>
+    </div>
+  </div>
+</div>
+
 <%= render 'layouts/messages' %>
 <div class='container'>
   <div class='row'>
