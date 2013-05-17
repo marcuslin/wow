@@ -10,6 +10,34 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
+      @pop_equip = {}
+
+      @char_class = {
+        '1' => 'Warrior',
+        #'2' => 'Paladin',
+        #'3' => 'Hunter',
+        #'4' => 'Rogue',
+        #'5' => 'Priest',
+        #'6' => 'Death Knight',
+        #'7' => 'Shaman',
+        #'8' => 'Mage',
+        #'9' => 'Warlock',
+        #'10' => 'Monk',
+        #'11' => 'Druid'
+      }.each do |c| 
+        
+      equip_part = %W(head neck shoulder back chest wrist hands
+                    waist legs feet finger1 finger2 trinket1
+                    trinket2 mainHand offHand)
+
+      equip_part.each do |p|
+
+        @pop_equip = Equipment.where(equip_class: c, equip_part: p).order("equip_counts DESC").first
+
+
+        #binding.pry
+      end
+      end
     end
   end
 

@@ -1,23 +1,100 @@
-<h1>Listing users</h1>
+<div id='user'>
+<% @char_class.each do |c|%>
+  <table>
 
-<table class='table'>
-  <tr>
-    <th>Name</th>
-    <th>Action</th>
-  </tr>
+    <tr>
+      <td colspan="3">
 
-<% @users.each do |user| %>
-  <tr>
-    <td><%= user.user_name %></td>
-    <td>
-      <%= link_to 'Show', user %> |
-      <%= link_to 'Edit', edit_user_path(user) %> |
-      <%= link_to 'Destroy', user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %> |
-    </td>
-  </tr>
+      TOP gear choices for <%= "#{c[1]}" %>
+
+      </td>
+    </tr>
+
+    <tr>
+      <td>Equip Part</td>
+      <td>Equip Name</td>
+      <td>Equip Ratio</td>
+    </tr>
+    <tr>
+      <td>Head</td>
+      <td><%= "#{@pop_equip['equip_name']}" %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Neck</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Shoulder</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Cloak</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Chest</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Wrist</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Hands</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Waist</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Legs</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Feet</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Ring1</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Ring2</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Trinket1</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Trinket2</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Main Hand</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Off Hand</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
 <% end %>
-</table>
-<% if current_user && current_user.is_admin? %>
-<%= link_to 'New User', new_user_path %>
-<% end %>
-<br />
+</div>
