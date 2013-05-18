@@ -1,12 +1,9 @@
 <div id='user'>
-<% @char_class.each do |c|%>
+<% @pop_equip.each do |klass, parts| %>
   <table>
-
     <tr>
       <td colspan="3">
-
-      TOP gear choices for <%= "#{c[1]}" %>
-
+      TOP gear choices for <%= klass %>
       </td>
     </tr>
 
@@ -15,86 +12,13 @@
       <td>Equip Name</td>
       <td>Equip Ratio</td>
     </tr>
-    <tr>
-      <td>Head</td>
-      <td><%= "#{@pop_equip['equip_name']}" %></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Neck</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Shoulder</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Cloak</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Chest</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Wrist</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Hands</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Waist</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Legs</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Feet</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Ring1</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Ring2</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Trinket1</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Trinket2</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Main Hand</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Off Hand</td>
-      <td></td>
-      <td></td>
-    </tr>
+    <% parts.each do |part, equip| %>
+      <tr>
+        <td><%= part %></td>
+        <td><%= equip.equip_name %></td>
+        <td></td>
+      </tr>
+    <% end %>
   </table>
 <% end %>
 </div>

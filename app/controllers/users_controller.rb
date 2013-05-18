@@ -12,8 +12,8 @@ class UsersController < ApplicationController
       format.json { render json: @users }
       @pop_equip = {}
 
-      @char_class = {
-        '1' => 'Warrior',
+      char_class = {
+        '1' => 'Warrior'
         #'2' => 'Paladin',
         #'3' => 'Hunter',
         #'4' => 'Rogue',
@@ -24,21 +24,20 @@ class UsersController < ApplicationController
         #'9' => 'Warlock',
         #'10' => 'Monk',
         #'11' => 'Druid'
-      }.each do |c| 
-        
-      equip_part = %W(head neck shoulder back chest wrist hands
-                    waist legs feet finger1 finger2 trinket1
-                    trinket2 mainHand offHand)
+      }.each do |k,v|
 
-      equip_part.each do |p|
+        equip_part = %w(head neck shoulder back chest wrist hands
+                      waist legs feet finger1 finger2 trinket1
+                      trinket2 mainHand offHand)
 
-        @pop_equip = Equipment.where(equip_class: c, equip_part: p).order("equip_counts DESC").first
-
-
-        #binding.pry
-      end
+        equip = {}
+        equip_part.each do |p|
+          equip[p] = Equipment.where(equip_class: k, equip_part: p).order("equip_counts DESC").first
+        end
+        @pop_equip[v] = equip
       end
     end
+
   end
 
   # GET /users/1

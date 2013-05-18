@@ -9,31 +9,35 @@ admin.toggle!(:admin)
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-realms = %w(尖石 日落沼澤 冰霜之刺 冰風崗哨 世界之樹 狂熱之刃 水晶之刺 米奈希爾 巨龍之喉 地獄吼)
-chars = %w(Monpp 牧師小暖 Kitsmonk 毛皮皮 Fion 冰小琳 牛牛小德暖 Acedog 大雄偷看中 神塵
- punkin Vyaenie Huung 小燕 Zogxx 小喵咩 矮子小飛子 憤怒的魯路修 牙龍天勢 Afamau
- 魍魂 小飛子 Hellaslol 焦急模式 大逆罪人 Alician 綾崎颯 羞恥妻 溫室效應 Akedog 風清奴
- 來去無痕 Militant 亡靈塞特 Rewind Aaronj Pheromone Xoxooxo Oomnilol 米恩斯 孤斬 猛枒
- 乂皇權天授乂 Intense Guillaume 知還 末世兇殺 紫雲聖者 鐵老 馮虛禦風 Ttcooper 紫裝人
- 白小爺五世 知炎 Somad 部落戰神 阿哩公威啊 紅落券輕霜 藏拙 黯命 疾犽 殘小罪 Seamo 祈待
- 阿哩公威阿 血境矇月 神一般的霸气 神一般的帥氣 Iceshock 娜娜莉口人口 Cdada 快樂老頭子
- Spectrez 維妮維妮 龍墓花園 快伴啪 Avarive 小補帖 Futura 熊貓是部落的 Hnchbhsd 妖星魔鬼流
- 阿城哥 三支煙 玉鷺 莫冥 老拖 Thanatosah Derocco 川野狂 川野畜 咒文 川野明 戀小薰 朋友派我來的
- 乂薰 緋夜神命 Blackbeard Voodooist Sundaily)
+data = {
+  "尖石" => %w(Monpp 牧師小暖 Kitsmonk 毛皮皮 Fion 冰小琳 牛牛小德暖 Acedog 大雄偷看中 神塵 punkin Vyaenie Huung 小燕 Zogxx 小喵咩 矮子小飛子 憤怒的魯路修 牙龍天勢 Afamau 魍魂 小飛子 Hellaslol 焦急模式 大逆罪人 Alician 綾崎颯 羞恥妻 溫室效應 Akedog),
+  "日落沼澤" => %w(風清奴 來去無痕 Militant 亡靈塞特 Rewind Aaronj Pheromone Xoxooxo Oomnilol 米恩斯 孤斬 猛枒 乂皇權天授乂 Intense Guillaume 知還 末世兇殺 紫雲聖者 鐵老 馮虛禦風 Ttcooper),
+  "冰霜之刺" => %w(紫裝人 白小爺五世 知炎 Somad 部落戰神 阿哩公威啊 紅落券輕霜 藏拙 黯命 疾犽 殘小罪 Seamo 祈待 阿哩公威阿 血境矇月 神一般的霸气 神一般的帥氣 Iceshock),
+  "冰風崗哨" => %w(娜娜莉口人口 Cdada 快樂老頭子),
+  "世界之樹" => %w(Spectrez 維妮維妮 龍墓花園),
+  "狂熱之刃" => %w(快伴啪 Avarive 小補帖 Futura 熊貓是部落的 Hnchbhsd 妖星魔鬼流),
+  "水晶之刺" => %w(阿城哥 三支煙 玉鷺 莫冥 老拖 Thanatosah),
+  "米奈希爾" => %w(Derocco),
+  "巨龍之喉" => %w(川野狂 川野畜 咒文 川野明),
+  "地獄吼" => %w(戀小薰 朋友派我來的 乂薰 緋夜神命 Blackbeard Voodooist Sundaily)
+}
 
 # add new users
 users = []
-chars.each do |c|
-  puts "Checking and inserting #{c}"
-  user =  User.where(user_name: c, email: "#{c}@test.test").first_or_create do |u|
-    u.password = 'testtest'
-    u.password_confirmation = 'testtest'
+data.each do |k, chars|
+  chars.each do |c|
+    puts "Checking and inserting #{c}"
+
+    user =  User.where(user_name: c, email: "#{c}@test.test").first_or_create do |u|
+      u.password = 'testtest'
+      u.password_confirmation = 'testtest'
+    end
+    users << user
   end
-  users << user
 end
 
 # add new chars
-realms.each do |r|
+data.each do |r, chars|
   users.each do |u|
     begin
       puts "Inserting #{u.user_name} ..."
