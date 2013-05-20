@@ -13,28 +13,35 @@ class UsersController < ApplicationController
       @pop_equip = {}
 
       char_class = {
-        '1' => 'Warrior'
-        #'2' => 'Paladin',
-        #'3' => 'Hunter',
-        #'4' => 'Rogue',
-        #'5' => 'Priest',
-        #'6' => 'Death Knight',
-        #'7' => 'Shaman',
-        #'8' => 'Mage',
-        #'9' => 'Warlock',
-        #'10' => 'Monk',
-        #'11' => 'Druid'
+        '1' => 'Warrior',
+        '2' => 'Paladin',
+        '3' => 'Hunter',
+        '4' => 'Rogue',
+        '5' => 'Priest',
+        '6' => 'Death Knight',
+        '7' => 'Shaman',
+        '8' => 'Mage',
+        '9' => 'Warlock',
+        '10' => 'Monk',
+        '11' => 'Druid'
       }.each do |k,v|
 
         equip_part = %w(head neck shoulder back chest wrist hands
                       waist legs feet finger1 finger2 trinket1
                       trinket2 mainHand offHand)
+        char = Character.where(character_class: k)
 
         equip = {}
         equip_part.each do |p|
           equip[p] = Equipment.where(equip_class: k, equip_part: p).order("equip_counts DESC").first
+
+            unless equip[p].blank?
+              equip[p]['ratio'] = Float(equip[p].equip_counts) / Float(char.count) * 100
+            end
+        #binding.pry
         end
         @pop_equip[v] = equip
+
       end
     end
 

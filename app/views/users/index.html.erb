@@ -1,24 +1,32 @@
 <div id='user'>
 <% @pop_equip.each do |klass, parts| %>
-  <table>
-    <tr>
-      <td colspan="3">
-      TOP gear choices for <%= klass %>
-      </td>
-    </tr>
+  <p>
+    <table>
+      <tr>
+        <td colspan="3">
+        TOP gear choices for <%= klass %>
+        </td>
+      </tr>
+      <tr>
+        <td>Equip Part</td>
+        <td>Equip Name</td>
+        <td>Equip Ratio</td>
+      </tr>
+      <% parts.each do |part, equip| %>
 
-    <tr>
-      <td>Equip Part</td>
-      <td>Equip Name</td>
-      <td>Equip Ratio</td>
-    </tr>
-    <% parts.each do |part, equip| %>
       <tr>
         <td><%= part %></td>
-        <td><%= equip.equip_name %></td>
-        <td></td>
+        <% unless equip.blank? %>
+          <td><%= equip.equip_name %></td>
+          <td><%= number_to_percentage(equip['ratio'], precision: 0) %></td>
+        <% else %>
+          <td>No Gear Found</td>
+          <td>No Ratio Found</td>
+        <% end %>
       </tr>
-    <% end %>
-  </table>
+
+      <% end %>
+    </table>
+  </p>
 <% end %>
 </div>
