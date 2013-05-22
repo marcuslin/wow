@@ -15,13 +15,13 @@
       <% parts.each do |part, equip| %>
 
       <tr>
-        <td><%= link_to part %></td>
-        <% unless equip.blank? %>
-          <td><%= link_to equip.equip_name, equipment_path(equip.id) %></td>
-          <td><%= number_to_percentage(equip['ratio'], precision: 0) %></td>
-        <% else %>
+        <td><%= link_to part, klass_part_equipment_index_path(equip.equip_class, equip.equip_part) unless equip.nil? %></td>
+        <% if equip.blank? %>
           <td>No Gear Found</td>
           <td>No Ratio Found</td>
+        <% else %>
+          <td><%= link_to equip.equip_name, equipment_path(equip.id) %></td>
+          <td><%= number_to_percentage(equip['ratio'], precision: 0) %></td>
         <% end %>
       </tr>
 
