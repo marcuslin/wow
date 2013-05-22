@@ -9,7 +9,16 @@ Wow::Application.routes.draw do
 
   root :to => 'users#index'
 
-  resources :equipment
+  resources :equipment do
+    collection do
+      resources :equip_class do
+        collection do
+          get :equip_part
+        end
+      end
+    end
+  end
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

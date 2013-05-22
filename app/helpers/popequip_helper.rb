@@ -1,0 +1,2 @@
+module PopequipHelper
+end
