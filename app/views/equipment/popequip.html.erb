@@ -1,0 +1,22 @@
+<div id='user'>
+  <p id="notice"><%= notice %></p>
+
+  <table>
+      <tr>
+        <td colspan="2">
+          <%= "#{@char_class[@equip_pop[0].equip_class]} #{@equip_pop[0].equip_part}" %> choices
+        </td>
+      </tr>
+      <tr>
+        <td>Equip Name</td>
+        <td>Equip Ratio</td>
+      </tr>
+       <% @equip_pop.each do |e| %>
+        <tr>
+          <td><%= link_to e.equip_name, equipment_path(e.id) %></td>
+          <td><%= number_to_percentage(@part_calc, precision: 0) %></td>
+        </tr>
+      <% end %>
+
+  </p>
+</div>

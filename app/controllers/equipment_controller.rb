@@ -33,4 +33,30 @@ class EquipmentController < ApplicationController
       format.json { render json: @user }
     end
   end
+
+  def popequip
+    klasspart = params
+
+    @char_class = {
+        '1' => 'Warrior',
+        '2' => 'Paladin',
+        '3' => 'Hunter',
+        '4' => 'Rogue',
+        '5' => 'Priest',
+        '6' => 'Death Knight',
+        '7' => 'Shaman',
+        '8' => 'Mage',
+        '9' => 'Warlock',
+        '10' => 'Monk',
+        '11' => 'Druid'
+    }
+
+    char = Character.where(character_class: klasspart['klass'])
+    @equip_pop = Equipment.where(equip_class: klasspart['klass'], equip_part: klasspart['part'])
+
+    @equip_pop.each do |e|
+      @part_calc = Float(e.equip_counts) / Float(char.count) * 100
+      #binding.pry
+    end
+  end
 end
