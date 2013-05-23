@@ -51,15 +51,13 @@ class EquipmentController < ApplicationController
         '11' => 'Druid'
     }
 
-    @part_calc = []
+    @part_calc = ''
 
     char = Character.where(character_class: klasspart['klass'])
     @equip_pop = Equipment.where(equip_class: klasspart['klass'], equip_part: klasspart['part'])
 
     @equip_pop.each do |e|
-      partcalc = Float(e.equip_counts) / Float(char.length) * 100
-      @part_calc << partcalc
-      #binding.pry
+      e.percentage = Float(e.equip_counts) / Float(char.length) * 100
     end
 
   end

@@ -15,12 +15,9 @@
 
       <% @equip_pop.each do |e| %>
         <tr>
-          <% @part_calc.each do |c| %>
           <td><%= link_to e.equip_name, equipment_path(e.id) %></td>
-
-          <td><%= number_to_percentage(c, precision: 0) %></td>
+          <td><%= number_to_percentage(e.percentage, precision: 0) %></td>
         </tr>
-        <% end %>
     <% end %>
   </table>
   </p>
