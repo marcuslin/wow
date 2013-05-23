@@ -1,3 +1,0 @@
-class PopequipController < ApplicationController
-
-end
