@@ -51,8 +51,6 @@ class EquipmentController < ApplicationController
         '11' => 'Druid'
     }
 
-    @part_calc = ''
-
     char = Character.where(character_class: klasspart['klass'])
     @equip_pop = Equipment.where(equip_class: klasspart['klass'], equip_part: klasspart['part'])
 

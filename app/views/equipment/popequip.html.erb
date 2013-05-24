@@ -15,6 +15,7 @@
 
       <% @equip_pop.each do |e| %>
         <tr>
+          <img src="http://us.media.blizzard.com/wow/icons/18/inv_helm_cloth_pvppriest_f_01.jpg">
           <td><%= link_to e.equip_name, equipment_path(e.id) %></td>
           <td><%= number_to_percentage(e.percentage, precision: 0) %></td>
         </tr>
