@@ -60,5 +60,12 @@ module Wow
     config.assets.version = '1.0'
 
     config.sass.preferred_syntax = :sass
+
+    config.generators do |g|
+      g.test_framework :rspec, :views => false, :fixture => false
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+      g.form_builder :simple_form
+      g.template_engine :haml
+    end
   end
 end

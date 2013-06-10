@@ -1,5 +1,5 @@
 class Equipment < ActiveRecord::Base
-  set_table_name 'equipments'
+  self.table_name = 'equipments'
   has_many :character_equips
   has_many :characters, :through => :character_equips
   has_many :equip_gems

@@ -1,30 +1,31 @@
-<p id="notice"><%= notice %></p>
+<div id='user'>
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= current_user.user_name %>
-</p>
-<p>
-  <b>Realms:</b>
-  <% current_user.realms.each do |r| %>
-    <%= "#{r.name}" %>
-    <br>
-  <% end %>
-</p>
-<p>
-  <b>Characters:</b>
-  <% current_user.characters.each do |c| %>
-    <%= "class: #{c.character_class}, name: #{c.name}, gender: #{c.gender}, level: #{c.level}, race: #{c.race}" %>
-    <br>
-    <p>
-      <b>Equipments:</b>
-      <p><% c.character_equips.includes(:equipment).each do |e| %></p>
-        <%= link_to e.equipment.equip_name, equipment_path(e.equipment_id) %>
-        <br>
+  <table>
+    <tr>
+      <td class='charinfo'>
+        <% current_user.characters.each do |c| %>
+            <p>
+              <img src="http://tw.battle.net/static-render/tw/<%= c.thumbnail %>">
+              <%= c.name %>
+                <%= "level #{c.level}, #{@char_race[c.race]} #{@char_class[c.character_class]}" %>
+                <% current_user.realms.each do |r| %>
+                <%= "#{r.name}" %>
+              <% end %>
+            </p>
+      </td>
+    </tr>
+
+    <tr>
+      <% c.character_equips.includes(:equipment).each do |e| %>
+        <td>
+          <img src="http://us.media.blizzard.com/wow/icons/18/<%= e.equipment.equip_icon %>.jpg">
+          <%= link_to e.equipment.equip_name, equipment_path(e.equipment_id) %>
+        </td>
+    </tr>
       <% end %>
-    </p>
-  <% end %>
-</p>
-
+        <% end %>
+</table>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+</div>

@@ -22,7 +22,10 @@
         <% if equip.blank? %>
           <td>No Gear Found</td>
         <% else %>
-          <td><%= link_to equip.equip_name, equipment_path(equip.id) %></td>
+          <td>
+            <img src="http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg">
+            <%= link_to equip.equip_name, equipment_path(equip.id) %>
+          </td>
         <% end %>
       </tr>
 

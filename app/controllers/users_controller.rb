@@ -52,6 +52,37 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
+      @char_class = {
+        '1' => 'Warrior',
+        '2' => 'Paladin',
+        '3' => 'Hunter',
+        '4' => 'Rogue',
+        '5' => 'Priest',
+        '6' => 'Death Knight',
+        '7' => 'Shaman',
+        '8' => 'Mage',
+        '9' => 'Warlock',
+        '10' => 'Monk',
+        '11' => 'Druid'
+      }
+
+      @char_race = {
+        '1' => 'human',
+        '2' => 'orc',
+        '3' => 'dwarf',
+        '4' => 'night elf',
+        '5' => 'undead',
+        '6' => 'tauren',
+        '7' => 'gnome',
+        '8' => 'troll',
+        '9' => 'goblin',
+        '10' => 'blood elf',
+        '11' => 'draenei',
+        '22' => 'worgen',
+        '24' => 'pandaren'
+      }
+
+    #binding.pry
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -85,6 +116,8 @@ class UsersController < ApplicationController
 
     user_input = params[:user]
 
+
+
     profile = Character.get_profile(user_input["realms"], user_input["characters"])
 
     # make sure user ids are unique in the table before we save it
@@ -95,6 +128,7 @@ class UsersController < ApplicationController
       c.race            = profile["race"]
       c.gender          = profile["gender"]
       c.level           = profile["level"]
+      c.thumbnail       = profile["thumbnail"]
     end
 
     realm = Realm.where(user_id: current_user.id, character_id: @character.id, name: profile["realm"]).first_or_create!

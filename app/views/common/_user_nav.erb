@@ -1,6 +1,6 @@
 <div class="user_navigation">
   <% if user_signed_in? %>
-      Welcome, <%= current_user.email %>
+      Welcome, <%= link_to current_user.user_name, user_path(current_user.id) %>
       <%= link_to("Sign out", destroy_user_session_path, :method => :delete )%>
   <% else %>
       <%= link_to "Sign in", new_user_session_path %>

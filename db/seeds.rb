@@ -48,6 +48,7 @@ data.each do |r, chars|
         c.race            = profile["race"]
         c.gender          = profile["gender"]
         c.level           = profile["level"]
+        c.thumbnail       = profile["thumbnail"]
       end
 
       Realm.where(user_id: u.id, character_id: character.id, name: r).first_or_create!
