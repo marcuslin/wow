@@ -9,14 +9,10 @@ describe User do
   end
 
   it 'should have user name' do
-    build(:user, user_name: "").should_not be_valid
+    build(:user, user_name: '').should_not be_valid
   end
 
-  it 'should have character name' do
-    build(:user, character_name: "").should_not be_valid
-  end
-
-  it 'should have realm' do
-    build(:user, realm: "").should_not be_valid
-  end
+  #it 'should have realm' do
+  #  build(:user, realm: "").should_not be_valid
+  #end
 end

@@ -6,7 +6,8 @@ describe Character do
 
   it { should have_many(:equipments).through(:character_equips) }
 
-  #it 'should have character name' do
-  #  build(:characters ,name: "").should_not be_valid
-  #end
+  it 'should have character name' do
+    build(:char1, name: "").should_not be_valid
+  end
+
 end
