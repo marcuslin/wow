@@ -17,7 +17,6 @@ data = {
   "世界之樹" => %w(Spectrez 維妮維妮 龍墓花園),
   "狂熱之刃" => %w(快伴啪 Avarive 小補帖 Futura 熊貓是部落的 Hnchbhsd 妖星魔鬼流),
   "水晶之刺" => %w(阿城哥 三支煙 玉鷺 莫冥 老拖 Thanatosah),
-  "米奈希爾" => %w(Derocco),
   "巨龍之喉" => %w(川野狂 川野畜 咒文 川野明),
   "地獄吼" => %w(戀小薰 朋友派我來的 乂薰 緋夜神命 Blackbeard Voodooist Sundaily)
 }
@@ -26,32 +25,33 @@ data = {
 users = []
 data.each do |k, chars|
   chars.each do |c|
-    puts "Checking and inserting #{c}"
+    puts "Checking and inserting #{k}, #{c}"
 
-    user =  User.where(user_name: c, email: "#{c}@test.test").first_or_create do |u|
+    user = User.create(user_name: c, email: "#{c}@test.test") do |u|
       u.password = 'testtest'
       u.password_confirmation = 'testtest'
     end
-    users << user
+  users << user
   end
 end
 
 # add new chars
 data.each do |r, chars|
-  users.each do |u|
+  chars.each do |ch|
     begin
-      puts "Inserting #{u.user_name} ..."
-      profile = Character.get_profile(r, u.user_name)
+      puts "Inserting #{ch} ..."
+      profile = Character.get_profile(r, ch)
 
-      character = Character.where(user_id: u.id, name: u.user_name).first_or_create! do |c|
+      user = User.where(user_name: ch)
+
+      character = Character.where(user_id: user[0].id, name: ch).first_or_create! do |c|
         c.character_class = profile["class"]
         c.race            = profile["race"]
         c.gender          = profile["gender"]
         c.level           = profile["level"]
         c.thumbnail       = profile["thumbnail"]
+        c.realm           = r
       end
-
-      Realm.where(user_id: u.id, character_id: character.id, name: r).first_or_create!
 
       items = profile["items"]
 
@@ -100,11 +100,11 @@ data.each do |r, chars|
         end
         CharacterEquip.where(character_id: character.id, equipment_id: equip.id).first_or_create
       end
-      puts "Finish inserting #{u.user_name} ..."
+      puts "Finish inserting #{ch} ..."
       puts 'sleep for 3 seconds to cotinues the next character'
       sleep 3
     rescue Exception => e
-      puts "Something went wrong when fetching / inserting equipment for #{u.user_name}\n\n"
+      puts "Something went wrong when fetching / inserting equipment for #{ch}\n\n"
       puts "#{e}"
     end
   end

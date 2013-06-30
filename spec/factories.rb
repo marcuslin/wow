@@ -17,17 +17,15 @@ FactoryGirl.define do
 
   factory :char1, :class => Character do
     name 'char1'
+    realm 'realm1'
   end
 
   factory :char2, :class => Character do
     name 'char2'
+    realm 'realm2'
   end
 
   factory :equip1, :class => Equipment do
     equip_name 'equip1'
-  end
-
-  factory :realm do
-    name 'realm'
   end
 end

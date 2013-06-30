@@ -20,7 +20,7 @@
       <% c.character_equips.includes(:equipment).each do |e| %>
         <td>
           <img src="http://us.media.blizzard.com/wow/icons/18/<%= e.equipment.equip_icon %>.jpg">
-          <%= link_to e.equipment.equip_name, equipment_path(e.equipment_id) %>
+          <a class='equip_link', id='<%= e.equipment_id %>' href='#'></a>
         </td>
     </tr>
       <% end %>

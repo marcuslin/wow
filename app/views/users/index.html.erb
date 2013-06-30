@@ -24,10 +24,13 @@
         <% else %>
           <td>
             <img src="http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg">
-            <%= link_to equip.equip_name, equipment_path(equip.id) %>
+            <a class='equip_data' id="<%= equip.id %>" href='#'>
+              <%= equip.equip_name %>
+            </a>
           </td>
         <% end %>
       </tr>
+
 
       <% end %>
     </table>

@@ -129,9 +129,10 @@ class UsersController < ApplicationController
       c.gender          = profile["gender"]
       c.level           = profile["level"]
       c.thumbnail       = profile["thumbnail"]
+      c.realm           = user_input["realms"]
     end
 
-    realm = Realm.where(user_id: current_user.id, character_id: @character.id, name: profile["realm"]).first_or_create!
+    #realm = Realm.where(user_id: current_user.id, character_id: @character.id, name: profile["realm"]).first_or_create!
 
     items = profile["items"]
     #save character and equipment info
