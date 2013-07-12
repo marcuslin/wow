@@ -150,8 +150,8 @@ class UsersController < ApplicationController
           e.equip_itemlvl = items[k]["itemLevel"]
           e.equip_num = items[k]["id"]
           e.equip_class = profile["class"]
-          stat = items[k]["stats"]
-          e.equip_stat = stat.to_json
+          equipStat = Equipment.get_data(items[k]["id"])
+          e.equip_stat = equipStat["bonusStats"].to_json
           # e.gem0_num = items[k]["tooltipParams"]["gem0"]
           # e.gem1_num = items[k]["tooltipParams"]["gem1"]
         end

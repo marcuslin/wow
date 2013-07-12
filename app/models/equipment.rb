@@ -12,6 +12,18 @@ class Equipment < ActiveRecord::Base
 
   attr_accessor :percentage
 
+  def self.get_data(itemNum)
+    url = "http://tw.battle.net/api/wow/item/#{itemNum}"
+    puts url
+    encoded_uri = URI.encode(url)
+    # binding.pry
+    begin
+      JSON.parse(open(encoded_uri).read)
+    rescue
+      puts "\n\n #{encoded_uri} \n\n"
+    end
+  end
+
   #validates :equip_name, :uniqueness => true
 end
 

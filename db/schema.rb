@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615054120) do
+ActiveRecord::Schema.define(:version => 20130708110030) do
+
+  create_table "bonus_stats", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "stats_num"
+    t.string   "stats_info"
+  end
 
   create_table "character_equips", :force => true do |t|
     t.integer  "character_id"

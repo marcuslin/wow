@@ -2,14 +2,27 @@ class EquipmentController < ApplicationController
   def show
     equipment = params
 
-    @equips = Equipment.where(id: equipment['id'])[0]
+    @equip = Equipment.find(equipment['id'])
 
-    char = Character.where(character_class: @equips.equip_class)
+    new_equip_stat = []
 
-    @equip_calc = Float(@equips.equip_counts) / Float(char.count) * 100
+    @equip[:new_equip_stat] = new_equip_stat
+
+    char = Character.where(character_class: @equip.equip_class)
+
+    equip_stat = JSON.parse(@equip.equip_stat)
+
+    # replace equip_num with it own stat info
+    equip_stat.each do |b|
+      equip_stat_info = BonusStat.where(stats_num: b["stat"]).first.stats_info
+      new_equip_stat << {stat: equip_stat_info, amount: b["amount"]}
+      # binding.pry
+    end
+
+    @equip_calc = Float(@equip.equip_counts) / Float(char.count) * 100
     # count and calculate specific class equip percentage
 
-    jewel = @equips.jewels.map(&:id).group_by{|x| x}
+    jewel = @equip.jewels.map(&:id).group_by{|x| x}
     # get jewel info form same equip and group by jewel id
     @jewel_calc = {}
     # assign @jewel_calc as empty hash
@@ -30,8 +43,8 @@ class EquipmentController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @equips }
-    end
+      format.json { render json: @equip }
+      end
   end
 
   def popequip

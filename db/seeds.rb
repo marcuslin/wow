@@ -21,6 +21,55 @@ data = {
   "地獄吼" => %w(戀小薰 朋友派我來的 乂薰 緋夜神命 Blackbeard Voodooist Sundaily)
 }
 
+stats = {
+  "1" => "Health",
+  "2" => "Mana",
+  "3" => "Agility",
+  "4" => "Strength",
+  "5" => "Intellect",
+  "6" => "Spirit",
+  "7" => "Stamina",
+  "46" => "Equip: Restores health per 5 sec",
+  "44" => "Equip: Increases your armor penetration rating by",
+  "38" => "Equip: Increases attack power by",
+  "15" => "Equip: Increases your shield block rating by",
+  "48" => "Equip: Increases the block value of your shield by",
+  "19" => "Equip: Improves melee critical strike rating by",
+  "20" => "Equip: Improves ranged critical strike rating by",
+  "32" => "Equip: Increases your critical strike rating by",
+  "21" => "Equip: Improves spell critical strike rating by",
+  "25" => "Equip: Improves melee critical avoidance rating by",
+  "26" => "Equip: Improves ranged critical avoidance rating by",
+  "34" => "Equip: Improves critical avoidance rating by",
+  "27" => "Equip: Improves spell critical avoidance rating by",
+  "12" => "Equip: Increases defense rating by",
+  "13" => "Equip: Increases your dodge rating by",
+  "37" => "Equip: Increases your expertise rating by",
+  "40" => "Equip: Increases attack power by in Cat, Bear, Dire Bear, and Moonkin forms only",
+  "28" => "Equip: Improves melee haste rating by",
+  "29" => "Equip: Improves ranged haste rating by",
+  "36" => "Equip: Increases your haste rating by",
+  "30" => "Equip: Improves spell haste rating by",
+  "16" => "Equip: Improves melee hit rating by",
+  "17" => "Equip: Improves ranged hit rating by",
+  "31" => "Equip: Increases your hit rating by",
+  "18" => "Equip: Improves spell hit rating by",
+  "22" => "Equip: Improves melee hit avoidance rating by",
+  "23" => "Equip: Improves ranged hit avoidance rating by",
+  "33" => "Equip: Improves hit avoidance rating by",
+  "24" => "Equip: Improves spell hit avoidance rating by",
+  "43" => "Equip: Restores mana per 5 sec",
+  "49" => "Equip: Increases your mastery rating by",
+  "14" => "Equip: Increases your parry rating by",
+  "39" => "Equip: Increases ranged attack power by",
+  "35" => "pvp resilience",
+  "41" => "Equip: Increases damage done by magical spells and effects by up to",
+  "42" => "Equip: Increases healing done by magical spells and effects by up to",
+  "47" => "Equip: Increases spell penetration by",
+  "45" => "Equip: Increases spell power by",
+  "57" => "pvp power"
+}
+
 # add new users
 users = []
 data.each do |k, chars|
@@ -68,8 +117,8 @@ data.each do |r, chars|
             e.equip_itemlvl = items[k]["itemLevel"]
             e.equip_num = items[k]["id"]
             e.equip_class = profile["class"]
-            stat = items[k]["stats"]
-            e.equip_stat = stat.to_json
+            equipStat = Equipment.get_data(items[k]["id"])
+            e.equip_stat = equipStat["bonusStats"].to_json
 
           end
         end
@@ -109,3 +158,12 @@ data.each do |r, chars|
     end
   end
 end
+
+#add stats data
+  stats.each do |s, stat|
+    puts "Inserting stat num #{s} ..."
+      @statdata = BonusStat.create(stats_num: s, stats_info: stat)
+    puts "Finish inserting stat. "
+    puts 'sleep for 3 seconds to cotinues the next stat'
+    sleep 3
+  end
