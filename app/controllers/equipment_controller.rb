@@ -16,7 +16,7 @@ class EquipmentController < ApplicationController
 
     # replace equip_num with it own stat info
     equip_stat.each do |b|
-      equip_stat_info = BonusStat.where(stats_num: b["stat"]).first.stats_info
+      equip_stat_info ||= BonusStat.where(stats_num: b["stat"]).first['stats_info']
       test = b["stat"]
       if b["stat"] == 1 || b["stat"] == 2 || b["stat"] == 3 || b["stat"] == 4 || b["stat"] == 5 || b["stat"] == 6 || b["stat"] == 7 || b["stat"] == 57 || b["stat"] == 35
         stat_info = "+ #{b['amount']}" + " #{equip_stat_info}"

@@ -24,7 +24,7 @@
         <% else %>
           <td>
             <img src="http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg">
-            <a class='equip_data' id="<%= equip.id %>" href='#'>
+            <a href='#' class='equip_data' id="<%= equip.id %>" equip-id="<%= equip.id %>">
               <%= equip.equip_name %>
             </a>
           </td>

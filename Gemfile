@@ -9,6 +9,7 @@ gem 'wow_community_api'
 gem 'devise'
 gem 'cancan'
 gem 'bootstrap-sass'
+gem 'jquery-ui-rails'
 
 group :development do
   gem 'pry'
