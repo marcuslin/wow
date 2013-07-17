@@ -34,4 +34,10 @@ Wow::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Set default debug level
+  config.log_level = :debug
+
+  # Lograte
+  config.lograge.enabled = false
 end
