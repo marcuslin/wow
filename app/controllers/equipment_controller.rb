@@ -1,7 +1,7 @@
 class EquipmentController < ApplicationController
   def show
     @equip = Equipment.find(params['id'])
-
+    char = Character.where(character_class: @equip.equip_class)
 
     # binding.pry
     @equip_calc = Float(@equip.equip_counts) / Float(char.count) * 100
