@@ -1,38 +1,9 @@
 class EquipmentController < ApplicationController
   def show
-    equipment = params
+    @equip = Equipment.find(params['id'])
 
-    @equip = Equipment.find(equipment['id'])
 
-    new_equip_stat = []
-
-    stat_info = []
-
-    @equip[:new_equip_stat] = new_equip_stat
-
-    char = Character.where(character_class: @equip.equip_class)
-
-    equip_stat = JSON.parse(@equip.equip_stat)
-
-    # replace equip_num with it own stat info
-    equip_stat.each do |b|
-      equip_stat_info ||= BonusStat.where(stats_num: b["stat"]).first['stats_info']
-      test = b["stat"]
-      if b["stat"] == 1 || b["stat"] == 2 || b["stat"] == 3 || b["stat"] == 4 || b["stat"] == 5 || b["stat"] == 6 || b["stat"] == 7 || b["stat"] == 57 || b["stat"] == 35
-        stat_info = "+ #{b['amount']}" + " #{equip_stat_info}"
-      elsif b["stat"] == 46
-        stat_info = "Equip: Restores " + " #{b['amount']}" + " health per 5 sec"
-      elsif b["stat"] == 40
-        stat_info = "Equip: Increases attack power by " + " #{b['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
-      elsif b["stat"] == 43
-        stat_info = "Equip: Restores " + "#{b['amount']}" + "mana per 5 sec"
-      else
-        stat_info = "#{equip_stat_info}" + " #{b['amount']}"
-      end
-      new_equip_stat << stat_info
-      # binding.pry
-    end
-
+    # binding.pry
     @equip_calc = Float(@equip.equip_counts) / Float(char.count) * 100
     # count and calculate specific class equip percentage
 

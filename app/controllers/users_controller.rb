@@ -35,6 +35,52 @@ class UsersController < ApplicationController
         equip_part.each do |p|
           equip[p] = Equipment.where(equip_class: k, equip_part: p).order("equip_counts DESC").first
 
+    new_equip_stat = []
+
+    stat_info = []
+
+    new_stats_html = []
+
+    stats_html = []
+
+    pre_stats_html = ''
+
+    @equip[:new_equip_stat] = []
+
+    @equip[:new_stats_html] = []
+
+    char = Character.where(character_class: @equip.equip_class)
+
+    equip_stat = JSON.parse(@equip.equip_stat)
+
+    # replace equip_num with it own stat info
+    equip_stat.each do |b|
+      equip_stat_info = BonusStat.where(stats_num: b["stat"]).first['stats_info']
+      stats_details = b["stat"]
+      if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
+        stat_info = "+ #{b['amount']}" + " #{equip_stat_info}<br>"
+      elsif stats_details == 46
+        stat_info = "Equip: Restores " + "#{b['amount']}" + " health per 5 sec<br>"
+      elsif stats_details == 40
+        stat_info = "Equip: Increases attack power by " + "#{b['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)<br>"
+      elsif stats_details == 43
+        stat_info = "Equip: Restores " + "#{b['amount']}" + " mana per 5 sec<br>"
+      else
+        stat_info = "#{equip_stat_info}" + " #{b['amount']}<br>"
+      end
+      new_equip_stat << stat_info
+
+    end
+    @equip[:new_equip_stat] = new_equip_stat
+
+    new_equip_stat.each do |s|
+      pre_stats_html += s
+      stats_html = @equip.equip_name + "<br>" + pre_stats_html
+      new_stats_html << stats_html
+    end
+
+    @equip[:new_stats_html] = new_stats_html
+
             unless equip[p].blank?
               equip[p]['ratio'] = Float(equip[p].equip_counts) / Float(char.count) * 100
             end
