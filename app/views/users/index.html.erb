@@ -23,8 +23,10 @@
           <td>No Gear Found</td>
         <% else %>
           <td>
+            <a href='#' class='equip_data' id="<%= equip.id %>" equip-id="<%= equip.id %>" title="<div class='name'><img src=http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg>&nbsp;&nbsp;<%= equip.equip_name %></div><div class='stats'><%= equip[:new_stats_html].join %>" data-html="true" data-placement="right">
+
             <img src="http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg">
-            <a href='#' class='equip_data' id="<%= equip.id %>" equip-id="<%= equip.id %>" title="<%= equip[:new_stats_html].join('<br/><br/>') %>" data-html="true" data-placement="right">
+
               <%= equip.equip_name %>
             </a>
           </td>

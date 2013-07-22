@@ -65,7 +65,7 @@ class UsersController < ApplicationController
 
         new_stats_html = []
         new_equip_stat.each do |s|
-          new_stats_html << equip_obj.equip_name + "<br>" + s
+          new_stats_html << "<br>" + s
         end
         logger.info "\n\n\n#{new_stats_html}\n\n\n"
         equip[p][:new_stats_html] = new_stats_html
