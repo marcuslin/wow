@@ -6,7 +6,7 @@
     </a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
       <% @char_class.each do |num, klass| %>
-        <li><a tabindex="-1" href="equipment/equip_class/<%= num %>"><%= klass %></a></li>
+        <li><a tabindex="-1" href="/equipment/equip_class/<%= num %>"><%= klass %></a></li>
       <% end %>
     </ul>
   </div>
@@ -30,7 +30,7 @@
         <% if equip.nil? %>
           <td><%= part %></td>
         <% else %>
-          <td><%= link_to part, choose_class_equipment_index_path(equip.equip_class) %></td>
+          <td><%= link_to part, klass_part_equipment_index_path(equip.equip_class, equip.equip_part) %></td>
         <% end %>
 
         <% if equip.blank? %>
