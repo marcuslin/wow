@@ -4,7 +4,7 @@ class EquipmentController < ApplicationController
     char = Character.where(character_class: @equip.equip_class)
 
     # binding.pry
-    @equip_calc = Float(@equip.equip_counts) / Float(char.count) * 100
+    # @equip_calc = Float(@equip.equip_counts) / Float(char.count) * 100
     # count and calculate specific class equip percentage
 
     jewel = @equip.jewels.map(&:id).group_by{|x| x}

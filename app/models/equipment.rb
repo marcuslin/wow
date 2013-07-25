@@ -24,6 +24,14 @@ class Equipment < ActiveRecord::Base
     end
   end
 
+  def self.calc_equip(equip_counts, char_counts)
+
+
+    # binding.pry
+    equip_calc = Float(equip_counts) / Float(char_counts) * 100
+    # count and calculate specific class equip percentage
+  end
+
   #validates :equip_name, :uniqueness => true
 end
 

@@ -5,11 +5,8 @@ class UsersController < ApplicationController
 
   # GET /users
   # GET /users.json
-  def index
-    @users = User.all
-    @pop_equip = {}
-
-    char_class = {
+  def chooseclass
+    @char_class = {
       '1' => 'Warrior',
       '2' => 'Paladin',
       '3' => 'Hunter',
@@ -21,63 +18,99 @@ class UsersController < ApplicationController
       '9' => 'Warlock',
       '10' => 'Monk',
       '11' => 'Druid'
-    }.each do |k,v|
+    }
 
-      equip_part = %w(head neck shoulder back chest wrist hands
-                    waist legs feet finger1 finger2 trinket1
-                    trinket2 mainHand offHand)
-      char = Character.where(character_class: k)
+  end
 
-      equip = {}
-      equip_part.each do |p|
+  def index
+    @users = User.all
+    @pop_equip = {}
 
-        equip_obj = Equipment.where(equip_class: k, equip_part: p).order("equip_counts DESC").first
-        next if equip_obj.blank?
+    random_klass = rand(0..11)
 
-        equip[p] = equip_obj
+    equip_part = %w(head neck shoulder back chest wrist hands
+                  waist legs feet finger1 finger2 trinket1
+                  trinket2 mainHand offHand)
 
-        equip_stat = JSON.parse(equip_obj.equip_stat)
-        next if equip_stat.blank?
+    @equip_ratios = []
+    equip = {}
+    equip_part.each do |p|
 
-        # replace equip_num with it own stat info
-        new_equip_stat = []
-        equip_stat.each do |b|
-          stats_details = b["stat"]
-          equip_stat_info = BonusStat.where(stats_num: stats_details).first.try('stats_info')
+      equip_obj = Equipment.where(equip_class: random_klass, equip_part: p).order("equip_counts DESC").first
+      next if equip_obj.blank?
 
-          stat_info = ''
-          if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
-            stat_info = "+ #{b['amount']}" + " #{equip_stat_info}"
-          elsif stats_details == 46
-            stat_info = "Equip: Restores " + "#{b['amount']}" + " health per 5 sec"
-          elsif stats_details == 40
-            stat_info = "Equip: Increases attack power by " + "#{b['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
-          elsif stats_details == 43
-            stat_info = "Equip: Restores " + "#{b['amount']}" + " mana per 5 sec"
-          else
-            stat_info = "#{equip_stat_info}" + " #{b['amount']}"
-          end
 
-          new_equip_stat << stat_info
+
+      equip[p] = equip_obj
+      equip_stat = JSON.parse(equip_obj.equip_stat)
+      next if equip_stat.blank?
+# binding.pry
+      # replace equip_num with it own stat info
+      new_equip_stat = []
+      equip_stat.each do |b|
+        stats_details = b["stat"]
+        equip_stat_info = BonusStat.where(stats_num: stats_details).first.try('stats_info')
+
+        stat_info = ''
+        if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
+          stat_info = "+ #{b['amount']}" + " #{equip_stat_info}"
+        elsif stats_details == 46
+          stat_info = "Equip: Restores " + "#{b['amount']}" + " health per 5 sec"
+        elsif stats_details == 40
+          stat_info = "Equip: Increases attack power by " + "#{b['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
+        elsif stats_details == 43
+          stat_info = "Equip: Restores " + "#{b['amount']}" + " mana per 5 sec"
+        else
+          stat_info = "#{equip_stat_info}" + " #{b['amount']}"
         end
-        logger.info "\n\n\n#{new_equip_stat}\n\n\n"
-        equip[p][:new_equip_stat] = new_equip_stat
+
+        new_equip_stat << stat_info
+      end
+      logger.info "\n\n\n#{new_equip_stat}\n\n\n"
+      equip[p][:new_equip_stat] = new_equip_stat
 
         new_stats_html = []
         new_equip_stat.each do |s|
-          new_stats_html << "<br>" + s
-        end
-        logger.info "\n\n\n#{new_stats_html}\n\n\n"
-        equip[p][:new_stats_html] = new_stats_html
-
-        # unless equip[p].blank?
-        #   equip[p]['ratio'] = Float(equip[p].equip_counts) / Float(char.count) * 100
-        # end
-        #binding.pry
+        new_stats_html << "<br>" + s
       end
-      logger.info "\n\n\n#{equip[p]}\n\n\n"
-      @pop_equip[v] = equip
+      logger.info "\n\n\n#{new_stats_html}\n\n\n"
+      equip[p][:new_stats_html] = new_stats_html
+
+      # unless equip[p].blank?
+      #   equip[p]['ratio'] = Float(equip[p].equip_counts) / Float(char.count) * 100
+      # end
+      #binding.pry
+
+    # calculating most popular equipment ratio for random class
+      @char = Character.where(character_class: random_klass)
+      equip_rate = Equipment.calc_equip(equip_obj.equip_counts, @char.count)
+      @equip_ratios << equip_rate
+    # save ratio for each part
+      @equip_ratios.each do |er|
+        equip[p][:ratios] = er
+      end
+      # binding.pry
     end
+
+    @char_class = {
+      '1' => 'Warrior',
+      '2' => 'Paladin',
+      '3' => 'Hunter',
+      '4' => 'Rogue',
+      '5' => 'Priest',
+      '6' => 'Death Knight',
+      '7' => 'Shaman',
+      '8' => 'Mage',
+      '9' => 'Warlock',
+      '10' => 'Monk',
+      '11' => 'Druid'
+    }
+    logger.info "\n\n\n#{equip[p]}\n\n\n"
+    @pop_equip[@char_class["#{random_klass}"]] = equip
+    #  binding.pry
+    # @equip = Equipment.find(params['id'])
+
+
   end
 
   # GET /users/1

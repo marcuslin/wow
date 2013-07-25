@@ -9,7 +9,8 @@ Wow::Application.routes.draw do
 
   resources :equipment do
     collection do
-      get 'eqiup_class/:klass/equip_part/:part' => 'equipment#popequip', as: 'klass_part'
+      get 'equip_class/:klass/equip_part/:part' => 'equipment#popequip', as: 'klass_part'
+      get 'equip_class/:klass' => 'users#chooseclass', as: 'choose_class'
     end
   end
 
