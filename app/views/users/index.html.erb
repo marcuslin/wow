@@ -1,7 +1,19 @@
 <div id='user'>
+
+  <div class="container-narrow">
+
+  <%= render "topbanner" %>
+
+  <div class="jumbotron">
+        <h1>超讚的魔獸數據統計!!</h1>
+        <p class="lead">你還在煩惱該重鑄哪些素質??該鑲入哪種顏色的寶石??還是想弄清楚自己角色身上的裝備在魔獸世界玩家間的使用率??那你到底還在拖什麼!!註冊就對了啦!!</p>
+        <a class="btn btn-large btn-success" href="/users/sign_up">點我點我點我!!</a>
+  </div>
+
+  </div>
   <div class="btn-group">
     <a class="btn dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
-      Choose Class
+      選擇職業
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -13,16 +25,16 @@
 
 <% @pop_equip.each do |klass, parts| %>
   <p>
-    <table>
+    <table align="center">
       <tr>
         <td colspan="3">
-        TOP gear choices for <%= klass %>
+        <%= klass %>使用率最高的裝備
         </td>
       </tr>
       <tr>
-        <td>Equip Part</td>
-        <td>Equip Name</td>
-        <td>Equip Ratio</td>
+        <td>裝備部位</td>
+        <td>裝備名稱</td>
+        <td>裝備使用率 (裝備人數/<%= klass %> 總人數)</td>
       </tr>
 
       <% parts.each do |part, equip| %>
@@ -37,7 +49,7 @@
           <td>No Gear Found</td>
         <% else %>
           <td>
-            <a href='#' class='equip_data' id="<%= equip.id %>" equip-id="<%= equip.id %>" title="<div class='name'><img src=http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg>&nbsp;&nbsp;<%= equip.equip_name %></div><div class='stats'><%= equip[:new_stats_html].join %>" data-html="true" data-placement="right">
+            <a href='/equipment/<%= equip.id%>' class='equip_data' id="<%= equip.id %>" equip-id="<%= equip.id %>" title="<div class='name'><img src=http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg>&nbsp;&nbsp;<%= equip.equip_name %></div><div class='stats'><%= equip[:new_stats_html].join %>" data-html="true" data-placement="right">
 
             <img src="http://us.media.blizzard.com/wow/icons/36/<%= equip.equip_icon %>.jpg">
               <%= equip.equip_name %>
@@ -45,7 +57,7 @@
           </td>
         <% end %>
         <td>
-          <%= number_to_percentage(equip[:ratios], precision:0) %>&nbsp;&nbsp;( <%= equip.equip_counts %> out of <%= @char.count %> )
+          <%= number_to_percentage(equip[:ratios], precision:0) %>&nbsp;&nbsp;( <%= equip.equip_counts %> / <%= @char.count %> )
         </td>
       </tr>
       <% end %>

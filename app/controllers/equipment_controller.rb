@@ -1,13 +1,14 @@
+# encoding: UTF-8
 class EquipmentController < ApplicationController
   def show
-    @equip = Equipment.find(params['id'])
-    char = Character.where(character_class: @equip.equip_class)
+    @equips = Equipment.find(params['id'])
+    char = Character.where(character_class: @equips.equip_class)
 
     # binding.pry
     # @equip_calc = Float(@equip.equip_counts) / Float(char.count) * 100
     # count and calculate specific class equip percentage
 
-    jewel = @equip.jewels.map(&:id).group_by{|x| x}
+    jewel = @equips.jewels.map(&:id).group_by{|x| x}
     # get jewel info form same equip and group by jewel id
     @jewel_calc = {}
     # assign @jewel_calc as empty hash
@@ -36,24 +37,26 @@ class EquipmentController < ApplicationController
     klasspart = params
 
     @char_class = {
-        '1' => 'Warrior',
-        '2' => 'Paladin',
-        '3' => 'Hunter',
-        '4' => 'Rogue',
-        '5' => 'Priest',
-        '6' => 'Death Knight',
-        '7' => 'Shaman',
-        '8' => 'Mage',
-        '9' => 'Warlock',
-        '10' => 'Monk',
-        '11' => 'Druid'
+        '1' => '戰士',
+        '2' => '聖騎士',
+        '3' => '獵人',
+        '4' => '盜賊',
+        '5' => '牧師',
+        '6' => '死亡騎士',
+        '7' => '薩滿',
+        '8' => '法師',
+        '9' => '術士',
+        '10' => '武僧',
+        '11' => '德魯伊'
     }
 
-    char = Character.where(character_class: klasspart['klass'])
+
+    @choosenklass = @char_class[klasspart['klass']]
+    @char = Character.where(character_class: klasspart['klass'])
     @equip_pop = Equipment.where(equip_class: klasspart['klass'], equip_part: klasspart['part'])
 
     @equip_pop.each do |e|
-      e.percentage = Float(e.equip_counts) / Float(char.length) * 100
+      e.percentage = Float(e.equip_counts) / Float(@char.length) * 100
     end
   end
 end

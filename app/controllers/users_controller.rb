@@ -10,17 +10,17 @@ class UsersController < ApplicationController
     @pop_equip = {}
 
     @char_class = {
-      '1' => 'Warrior',
-      '2' => 'Paladin',
-      '3' => 'Hunter',
-      '4' => 'Rogue',
-      '5' => 'Priest',
-      '6' => 'Death Knight',
-      '7' => 'Shaman',
-      '8' => 'Mage',
-      '9' => 'Warlock',
-      '10' => 'Monk',
-      '11' => 'Druid'
+      '1' => '戰士',
+      '2' => '聖騎士',
+      '3' => '獵人',
+      '4' => '盜賊',
+      '5' => '牧師',
+      '6' => '死亡騎士',
+      '7' => '薩滿',
+      '8' => '法師',
+      '9' => '術士',
+      '10' => '武僧',
+      '11' => '德魯伊'
     }
 
     equip_part = %w(head neck shoulder back chest wrist hands
@@ -87,17 +87,17 @@ class UsersController < ApplicationController
     end
 
     @char_class = {
-      '1' => 'Warrior',
-      '2' => 'Paladin',
-      '3' => 'Hunter',
-      '4' => 'Rogue',
-      '5' => 'Priest',
-      '6' => 'Death Knight',
-      '7' => 'Shaman',
-      '8' => 'Mage',
-      '9' => 'Warlock',
-      '10' => 'Monk',
-      '11' => 'Druid'
+      '1' => '戰士',
+      '2' => '聖騎士',
+      '3' => '獵人',
+      '4' => '盜賊',
+      '5' => '牧師',
+      '6' => '死亡騎士',
+      '7' => '薩滿',
+      '8' => '法師',
+      '9' => '術士',
+      '10' => '武僧',
+      '11' => '德魯伊'
     }
 
     logger.info "\n\n\n#{equip[p]}\n\n\n"
@@ -177,17 +177,17 @@ class UsersController < ApplicationController
     end
 
     @char_class = {
-      '1' => 'Warrior',
-      '2' => 'Paladin',
-      '3' => 'Hunter',
-      '4' => 'Rogue',
-      '5' => 'Priest',
-      '6' => 'Death Knight',
-      '7' => 'Shaman',
-      '8' => 'Mage',
-      '9' => 'Warlock',
-      '10' => 'Monk',
-      '11' => 'Druid'
+      '1' => '戰士',
+      '2' => '聖騎士',
+      '3' => '獵人',
+      '4' => '盜賊',
+      '5' => '牧師',
+      '6' => '死亡騎士',
+      '7' => '薩滿',
+      '8' => '法師',
+      '9' => '術士',
+      '10' => '武僧',
+      '11' => '德魯伊'
     }
     logger.info "\n\n\n#{equip[p]}\n\n\n"
     @pop_equip[@char_class["#{random_klass}"]] = equip
@@ -203,33 +203,33 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
       @char_class = {
-        '1' => 'Warrior',
-        '2' => 'Paladin',
-        '3' => 'Hunter',
-        '4' => 'Rogue',
-        '5' => 'Priest',
-        '6' => 'Death Knight',
-        '7' => 'Shaman',
-        '8' => 'Mage',
-        '9' => 'Warlock',
-        '10' => 'Monk',
-        '11' => 'Druid'
+        '1' => '戰士',
+      '2' => '聖騎士',
+      '3' => '獵人',
+      '4' => '盜賊',
+      '5' => '牧師',
+      '6' => '死亡騎士',
+      '7' => '薩滿',
+      '8' => '法師',
+      '9' => '術士',
+      '10' => '武僧',
+      '11' => '德魯伊'
       }
 
       @char_race = {
-        '1' => 'human',
-        '2' => 'orc',
-        '3' => 'dwarf',
-        '4' => 'night elf',
-        '5' => 'undead',
-        '6' => 'tauren',
-        '7' => 'gnome',
-        '8' => 'troll',
-        '9' => 'goblin',
-        '10' => 'blood elf',
-        '11' => 'draenei',
-        '22' => 'worgen',
-        '24' => 'pandaren'
+        '1' => '人類',
+        '2' => '獸人',
+        '3' => '矮人',
+        '4' => '夜精靈',
+        '5' => '不死族',
+        '6' => '牛頭人',
+        '7' => '地精',
+        '8' => '食人妖',
+        '9' => '哥不靈',
+        '10' => '血精靈',
+        '11' => '德萊尼',
+        '22' => '狼人',
+        '24' => '熊貓人'
       }
 
     #binding.pry

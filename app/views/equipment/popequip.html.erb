@@ -4,12 +4,13 @@
   <table>
     <tr>
       <td colspan="2">
-        <%= "#{@char_class[@equip_pop[0].equip_class]} #{@equip_pop[0].equip_part} choices "%>
+        <%= "所有 #{@char_class[@equip_pop[0].equip_class]} #{@equip_pop[0].equip_part} 使用率 "%>
       </td>
     </tr>
     <tr>
-      <td>Equip Name</td>
-      <td>Equip Ratio</td>
+      <td>裝備名稱</td>
+
+      <td>裝備使用率 (裝備人數/<%= @choosenklass %> 總人數)</td>
     </tr>
 
 
@@ -19,7 +20,7 @@
           <img src="http://us.media.blizzard.com/wow/icons/36/<%= e.equip_icon %>.jpg">
           <%= link_to e.equip_name, equipment_path(e.id) %>
         </td>
-        <td><%= number_to_percentage(e.percentage, precision: 0) %></td>
+        <td><%= number_to_percentage(e.percentage, precision: 0) %>&nbsp;&nbsp;( <%= e.equip_counts %> / <%= @char.length %> )</td>
       </tr>
     <% end %>
   </table>
