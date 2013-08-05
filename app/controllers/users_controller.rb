@@ -204,16 +204,16 @@ class UsersController < ApplicationController
 
       @char_class = {
         '1' => '戰士',
-      '2' => '聖騎士',
-      '3' => '獵人',
-      '4' => '盜賊',
-      '5' => '牧師',
-      '6' => '死亡騎士',
-      '7' => '薩滿',
-      '8' => '法師',
-      '9' => '術士',
-      '10' => '武僧',
-      '11' => '德魯伊'
+        '2' => '聖騎士',
+        '3' => '獵人',
+        '4' => '盜賊',
+        '5' => '牧師',
+        '6' => '死亡騎士',
+        '7' => '薩滿',
+        '8' => '法師',
+        '9' => '術士',
+        '10' => '武僧',
+        '11' => '德魯伊'
       }
 
       @char_race = {
@@ -232,6 +232,8 @@ class UsersController < ApplicationController
         '24' => '熊貓人'
       }
 
+      user_char = Character.where(id: @user.id)
+      @char_count = Character.where(character_class: user_char[0].character_class).count
     #binding.pry
     respond_to do |format|
       format.html # show.html.erb
@@ -265,8 +267,6 @@ class UsersController < ApplicationController
     # @user = User.find(params[:id])
 
     user_input = params[:user]
-
-
 
     profile = Character.get_profile(user_input["realms"], user_input["characters"])
 
@@ -348,6 +348,10 @@ class UsersController < ApplicationController
 
       CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
       # saving data to character_equips(bridge table)
+
+
+
+
     end
 
     # @character.equipments << equips
@@ -364,6 +368,8 @@ class UsersController < ApplicationController
     # character.realm = "#{response['realm']}"
     # binding.pry
     end
+
+
   end
   # PUT /users/1
   # PUT /users/1.json
@@ -395,4 +401,3 @@ class UsersController < ApplicationController
     #@user = current_user
   end
 end
-

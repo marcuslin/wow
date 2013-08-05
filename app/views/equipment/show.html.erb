@@ -1,28 +1,51 @@
-<p id="notice"><%= notice %></p>
+<div id="equip_show">
+  <div class="equip_info">
 
-<table>
-  <p>
-    <%= "part: #{@equips.equip_part}" %>
-    <p><%= "name: #{@equips.equip_name}" %></p>
-    <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
-    <p><%= "percentage: #{number_to_percentage(@equip_calc, precision: 0)}" %></p>
-    <p><% stats = JSON.parse(@equips.equip_stat) %></p>
-      <p><% stats.each do |r| %></p>
+  <%= render "users/topbanner" %>
+  <%= render "users/discribe" %>
+  <div class="clearfix"></div>
 
-        <p><% if r['reforgedAmount'].present? %></p>
-          <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge to: #{stats.last['stat']}" %></p>
-        <p><% elsif r['reforged'] %></p>
-          <p><%= "stat: #{r['stat']}, amount: #{r['amount']}, reforge from: #{stats.select{|s| s.has_key?('reforgedAmount')}[0]['stat']}" %></p>
-        <p><% else %></p>
-          <p><%= "stat: #{r['stat']}, amount: #{r['amount']}" %></p>
-        <p><% end %></p>
-      <p><% end %></p>
+    <table align="center">
+      <tr>
+        <td class="equipInfo">
+          <p>
+            <img src="http://us.media.blizzard.com/wow/icons/36/<%= @equips.equip_icon %>.jpg">&nbsp;&nbsp;
+            <%= "#{@equips.equip_name}" %>
+          </p>
+          <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
+          <p><% stats = JSON.parse(@equips.equip_stat) %></p>
+            <p><% stats.each do |r| %></p>
+                <% statsNum = r['stat'] %>
+                <% equip_stat_info = BonusStat.where(stats_num: statsNum)[0].stats_info %>
+                <% if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(statsNum) %>
+                  <p><%= "+ #{r['amount']}" + " #{equip_stat_info}" %></p>
+                <% elsif statsNum = 46 %>
+                  <p><%= "Equip: Restores " + "#{r['amount']}" + " health per 5 sec" %></p>
+                <% elsif statsNum = 40 %>
+                  <p><%= "Equip: Increases attack power by " + "#{r['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)" %></p>
+                <% elsif statsNum = 43 %>
+                  <p><%= "Equip: Restores " + "#{r['amount']}" + " mana per 5 sec" %></p>
+                <% else %>
+                  <p><%= "#{equip_stat_info}" + " #{r['amount']}" %></p>
+                <% end %>
+            <p><% end %></p>
 
-    <p><% @jewel_calc.keys.each do |k| %></p>
-    <p><%= "gem name: #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
-        ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
-    <p><% end %></p>
-    <br>
-  </p>
-</table>
-<%= link_to 'Back', users_path %>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="jewel">
+    <table align="center">
+      <tr>
+        <td class="jewelInfo">
+          <% @jewel_calc.keys.each do |k| %>
+          <% jewelsInfo = Jewel.where(gem_name: k) %>
+            <p><img src="http://us.media.blizzard.com/wow/icons/36/<%= jewelsInfo[0].gem_icon %>.jpg">&nbsp;&nbsp;<%= " #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
+              ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
+            <p><% end %></p>
+        </td>
+      </tr>
+    </table>
+  </div>
+<div>

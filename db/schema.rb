@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130708110030) do
+ActiveRecord::Schema.define(:version => 20130801090430) do
 
   create_table "bonus_stats", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20130708110030) do
     t.string   "race"
     t.integer  "gender"
     t.integer  "level"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.string   "user_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.integer  "user_id",         :limit => 255
     t.string   "thumbnail"
     t.string   "realm"
   end
