@@ -1,4 +1,4 @@
-<%= render "users/topbanner" %>
+
 <%= render "users/discribe" %>
 <div id='userchar'>
   <p id="notice"><%= notice %></p>
@@ -27,7 +27,7 @@
         <td>
           <% equip = Equipment.where(equip_name: e.equipment.equip_name) %>
           <% equip_raito = Float(equip[0].equip_counts) / Float(@char_count) * 100 %>
-          <%= number_to_percentage( equip_raito, precision: 0) %>
+          同職業此裝備使用率為: <%= number_to_percentage( equip_raito, precision: 0) %>
         </td>
     </tr>
       <% end %>

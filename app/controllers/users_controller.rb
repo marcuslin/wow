@@ -271,7 +271,7 @@ class UsersController < ApplicationController
     profile = Character.get_profile(user_input["realms"], user_input["characters"])
 
     # make sure user ids are unique in the table before we save it
-    current_user.update_attributes(user_name: user_input[:user_name])
+    # current_user.update_attributes(user_name: user_input[:user_name])
 
     @character = Character.where(id: current_user.id, name: user_input["characters"]).first_or_create! do |c|
       c.character_class = profile["class"]
@@ -348,10 +348,6 @@ class UsersController < ApplicationController
 
       CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
       # saving data to character_equips(bridge table)
-
-
-
-
     end
 
     # @character.equipments << equips
