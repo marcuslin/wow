@@ -2,12 +2,30 @@
     <ul class="nav nav-pills pull-right">
       <li class="active"><%= link_to("首頁", root_path) %></li>
       <% if user_signed_in? %>
-        <li><%= link_to current_user.user_name, user_path(current_user.id) %></li>
-        <li><%= link_to("登出", destroy_user_session_path, :method => :delete )%></li>
+        <li class='dropdown'>
+          <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="/page.html">
+            <%= current_user.user_name %>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <li class="dropdown-submenu">
+                <a tabindex="-1">角色選擇</a>
+                <ul class="dropdown-menu" align="center">
+                  <% charList = Character.where(id: current_user.id)[0] %>
+                  <a href='/users/<%= charList.id %>'> <%= charList.name %></a>
+                </ul>
+              </li>
+              <li><a tabindex="-1" href="/users/edit">帳號管理</a></li>
+              <li><%= link_to("登出", destroy_user_session_path, :method => :delete )%></li>
+          </ul>
+        </li>
+
       <% else %>
         <li><a href="/users/sign_up">註冊</a></li>
         <li><a href="/users/sign_in">登入</a></li>
       <% end %>
+
+
     </ul>
 <h3 class="muted">我還在想...</h3>
 </div>

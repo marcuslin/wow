@@ -355,7 +355,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if current_user.save
-        format.html { redirect_to current_user, notice: 'User was successfully created.' }
+        format.html { redirect_to users_details_user_path, notice: 'User was successfully created.' }
         format.json { render json: current_user, status: :created, location: current_user }
       else
         format.html { render action: "new" }
@@ -395,5 +395,10 @@ class UsersController < ApplicationController
 
   def new_character
     #@user = current_user
+  end
+
+  def usersDetails
+    @charList = Character.where(id: current_user.id)[0]
+    # binding.pry
   end
 end

@@ -4,6 +4,7 @@ Wow::Application.routes.draw do
   resources :users do
     member do
       get 'new_character'
+      get 'users_details' => 'users#usersDetails', as: 'users_details'
     end
   end
 

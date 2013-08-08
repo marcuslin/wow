@@ -22,5 +22,6 @@ class Character < ActiveRecord::Base
     # JSON.parse(File.open("#{Rails.root}/app/models/burningangel.json").read)
   end
   validates :name, :realm,  :presence => true
+  validates_uniqueness_of :name
 end
 
