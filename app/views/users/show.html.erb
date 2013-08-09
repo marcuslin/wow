@@ -16,9 +16,14 @@
 
     <tr>
       <% c.character_equips.includes(:equipment).each do |e| %>
+        <% mostPopEquip = [] %>
+        <% prePopEquip = Equipment.where(equip_class: e.equipment.equip_class, equip_part: e.equipment.equip_part).order("equip_counts DESC").first %>
+        <% mostPopEquip << prePopEquip %>
+        <% mostPopEquip.each do |m| %>
         <td>
           <img src="http://us.media.blizzard.com/wow/icons/18/<%= e.equipment.equip_icon %>.jpg">
-          <a class='equip_link', id='<%= e.equipment_id %>' href='/equipment/<%= e.equipment_id %>'><%= e.equipment.equip_name %></a>
+          <a href='/equipment/<%= e.equipment_id %>' class='equip_link' id='<%= e.equipment_id %>' equip-id='<%= e.equipment_id %>'title="<p>目前裝備</p><div class='currentEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= e.equipment.equip_icon %>.jpg>&nbsp;&nbsp;<%= e.equipment.equip_name %></div><p></p><p>最多人使用</p><div class='mostEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= m.equip_icon %>.jpg>&nbsp;&nbsp;<%= m.equip_name %></div>" data-html="true" data-placement="right"><%= e.equipment.equip_name %></a>
+
         </td>
 
         <td>
@@ -27,6 +32,7 @@
           同職業此裝備使用率為: <%= number_to_percentage( equip_raito, precision: 0) %>
         </td>
     </tr>
+      <% end %>
       <% end %>
       <% end %>
 </table>

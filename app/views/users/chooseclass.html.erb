@@ -1,17 +1,5 @@
 <div id='user'>
   <%= render "users/discribe" %>
-  <div class="btn-group">
-    <a class="btn dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
-      選擇職業
-      <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <% @char_class.each do |num, klass| %>
-        <li><a tabindex="-1" href="<%= num %>"><%= klass %></a></li>
-        <% end %>
-    </ul>
-  </div>
-
 
 <% @pop_equip.each do |klass, parts| %>
   <p>

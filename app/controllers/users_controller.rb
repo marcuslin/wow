@@ -128,7 +128,7 @@ class UsersController < ApplicationController
       equip[p] = equip_obj
       equip_stat = JSON.parse(equip_obj.equip_stat)
       next if equip_stat.blank?
-# binding.pry
+      # binding.pry
       # replace equip_num with it own stat info
       new_equip_stat = []
       equip_stat.each do |b|
@@ -232,8 +232,12 @@ class UsersController < ApplicationController
         '24' => '熊貓人'
       }
 
+
       user_char = Character.where(id: @user.id)
       @char_count = Character.where(character_class: user_char[0].character_class).count
+
+
+
     #binding.pry
     respond_to do |format|
       format.html # show.html.erb

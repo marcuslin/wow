@@ -2,6 +2,10 @@ $(document).ready(function() {
   $("#user").tooltip({
     selector: "a[equip-id]"
   });
+
+  $("#character").tooltip({
+    selector: "a[equip-id]"
+  });
     // $.ajax('/equipment/' + equipId + '.json', {
     //     datatype: 'json',
     //     success: function(result) {

@@ -1,3 +1,54 @@
 <div class="user_navigation">
-  <%= render "users/topbanner" %>
+  <%= link_to "Still working on it...", root_path, class: 'brand' %>
+<div class="masthead">
+  <ul class="nav nav-pills">
+    <% if user_signed_in? %>
+      <li class='dropdown'>
+        <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="/page.html">
+          <%= current_user.user_name %>
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li class="dropdown-submenu">
+              <a tabindex="-1">角色選擇</a>
+              <ul class="dropdown-menu" align="center">
+                <% charList = Character.where(id: current_user.id)[0] %>
+                <a href='/users/<%= charList.id %>'> <%= charList.name %></a>
+              </ul>
+            </li>
+            <li><a tabindex="-1" href="/users/edit">帳號管理</a></li>
+            <li><%= link_to("登出", destroy_user_session_path, :method => :delete )%></li>
+        </ul>
+      </li>
+    <% else %>
+      <li><a href="/users/sign_up">註冊</a></li>
+      <li><a href="/users/sign_in">登入</a></li>
+    <% end %>
+<!-- choose character class dropdown and its menu -->
+    <li class='dropdown'>
+      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="/page.html">
+        選擇職業
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <% char_class = {
+          '1' => '戰士',
+          '2' => '聖騎士',
+          '3' => '獵人',
+          '4' => '盜賊',
+          '5' => '牧師',
+          '6' => '死亡騎士',
+          '7' => '薩滿',
+          '8' => '法師',
+          '9' => '術士',
+          '10' => '武僧',
+          '11' => '德魯伊'
+        } %>
+        <% char_class.each do |num, klass| %>
+          <li><a tabindex="-1" href="/equipment/equip_class/<%= num %>"><%= klass %></a></li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+</div>
 </div>
