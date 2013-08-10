@@ -1,12 +1,14 @@
-<div id="equip_show">
-  <div class="equip_info">
+<%= render "users/discribe" %>
+<div class="clearfix"></div>
 
-  <%= render "users/discribe" %>
-  <div class="clearfix"></div>
-
-    <table align="center">
+<table class="main" align="center">
+  <tr>
+    <td>
+      <div id="equip_show">
+      <div class="equip_info">
+      <table align="center">
       <tr>
-        <td class="equipInfo">
+        <td>
           <p>
             <img src="http://us.media.blizzard.com/wow/icons/36/<%= @equips.equip_icon %>.jpg">&nbsp;&nbsp;
             <%= "#{@equips.equip_name}" %>
@@ -28,16 +30,41 @@
                   <p><%= "#{equip_stat_info}" + " #{r['amount']}" %></p>
                 <% end %>
             <p><% end %></p>
-
         </td>
       </tr>
-    </table>
-  </div>
-
-  <div class="jewel">
-    <table align="center">
+      </table>
+      </div>
+    </td>
+    <td rowspan="2">
+      <div class="otherEquip">
+      <table align="right">
       <tr>
-        <td class="jewelInfo">
+        <td>此部位其餘玩家選擇</td>
+        <td>使用率</td>
+      </tr>
+      <% @equipRatio.each do |n, r| %>
+      <% equipInfo = Equipment.where(equip_name: n) %>
+      <tr>
+        <td>
+          <p>
+            <a href="/equipment/<%= equipInfo[0].id %>"><img src="http://us.media.blizzard.com/wow/icons/36/<%= equipInfo[0].equip_icon %>.jpg">&nbsp;&nbsp;<%= " #{n}" %></a>
+          </p>
+        </td>
+        <td>
+          <%= number_to_percentage(r, precision: 0)%>
+        </td>
+      <% end %>
+      </tr>
+      </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="jewel">
+      <table align="center">
+      <tr>
+        <td>
           <% @jewel_calc.keys.each do |k| %>
           <% jewelsInfo = Jewel.where(gem_name: k) %>
             <p><img src="http://us.media.blizzard.com/wow/icons/36/<%= jewelsInfo[0].gem_icon %>.jpg">&nbsp;&nbsp;<%= " #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
@@ -45,6 +72,9 @@
             <p><% end %></p>
         </td>
       </tr>
-    </table>
-  </div>
-<div>
+      </table>
+      </div>
+    </td>
+  </tr>
+</table>
+

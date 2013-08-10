@@ -23,9 +23,16 @@ class EquipmentController < ApplicationController
       @jewel_calc[jewel_name][:owns_by] = jewel[k].length
       @jewel_calc[jewel_name][:ratio] = Float(jewel[k].length) / Float(char.count) * 100
     end
+
     # count and calculate gems ratio for specific equip
 
-    # binding.pry
+    @equipRatio = {}
+    @otherEquip = Equipment.where(equip_class: @equips.equip_class, equip_part: @equips.equip_part).each do |o|
+      equipName = o.equip_name
+      @equipRatio[equipName] = Float(o.equip_counts) / Float(char.length) * 100
+
+    end
+
 
     respond_to do |format|
       format.html # show.html.erb
