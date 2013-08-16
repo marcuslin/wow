@@ -32,6 +32,54 @@ class Equipment < ActiveRecord::Base
     # count and calculate specific class equip percentage
   end
 
+  def self.equip_parts
+    equip_parts = %w(head neck shoulder back chest wrist hands
+                  waist legs feet finger1 finger2 trinket1
+                  trinket2 mainHand offHand)
+  end
+
+  def self.random_klass
+    random_klass = rand(1..11)
+  end
+
+  def self.choose_klass(chosenKlass)
+
+    equip_klass_num = chosenKlass['klass']
+    # binding.pry
+  end
+
+
+  def self.get_klass_equip_stats_num(chosen_klass)
+    testing =[]
+
+
+    self.equip_parts.each do |p|
+
+      @equip_obj = Equipment.where(equip_class: chosen_klass, equip_part: p).order("equip_counts DESC").first
+      next if @equip_obj.blank?
+      # equip[p] = @equip_obj
+    # binding.pry
+      self.save_untrans
+    testing << JSON.parse(@equip_obj.equip_stat)
+    next if testing.blank?
+    end
+    testing
+    # binding.pry
+  end
+
+  def self.save_untrans
+    equip = {}
+    self.equip_parts.each do |e|
+      equip[e] = @equip_obj
+    end
+    equip
+    # binding.pry
+  end
+
+  def self.get_stats_info(stats_details)
+    BonusStat.where(stats_num: stats_details).first
+  end
+
   #validates :equip_name, :uniqueness => true
 end
 

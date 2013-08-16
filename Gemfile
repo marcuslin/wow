@@ -12,6 +12,7 @@ gem 'bootstrap-sass'
 gem 'jquery-ui-rails'
 gem 'activerecord-import', '~> 0.3.0'
 gem 'lograge'
+gem 'hashie'
 
 group :development do
   gem 'pry'

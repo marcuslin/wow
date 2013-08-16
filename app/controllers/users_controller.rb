@@ -3,73 +3,72 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
 
+  def self.trans_klassNum_to_klassName(klass_num)
+    Character.CHAR_KLASS[klass_num]
+    # binding.pry
+  end
+
+  def self.trans_statsNum_to_statsInfo
+
+  end
+
   # GET /users
   # GET /users.json
   def chooseclass
 
     @pop_equip = {}
 
-    @char_class = {
-      '1' => '戰士',
-      '2' => '聖騎士',
-      '3' => '獵人',
-      '4' => '盜賊',
-      '5' => '牧師',
-      '6' => '死亡騎士',
-      '7' => '薩滿',
-      '8' => '法師',
-      '9' => '術士',
-      '10' => '武僧',
-      '11' => '德魯伊'
-    }
-
-    equip_part = %w(head neck shoulder back chest wrist hands
-                  waist legs feet finger1 finger2 trinket1
-                  trinket2 mainHand offHand)
-
-    @choosen_klass = params
     @equip_ratios = []
-    equip = {}
-    equip_part.each do |p|
 
-      equip_obj = Equipment.where(equip_class: @choosen_klass['klass'], equip_part: p).order("equip_counts DESC").first
-      next if equip_obj.blank?
-
-      equip[p] = equip_obj
-      equip_stat = JSON.parse(equip_obj.equip_stat)
-      next if equip_stat.blank?
-# binding.pry
+    Equipment.equip_parts.each do |p|
+      # binding.pry
       # replace equip_num with it own stat info
-      new_equip_stat = []
-      equip_stat.each do |b|
-        stats_details = b["stat"]
-        equip_stat_info = BonusStat.where(stats_num: stats_details).first.try('stats_info')
 
+      new_equip_stat = []
+
+      # equip_stat = JSON.parse(@equip_obj.equip_stat)
+      # next if equip_stat.blank?
+
+      Equipment.get_klass_equip_stats_num(Equipment.choose_klass(params)).each do |n|
+        n.each_with_index do |s, index|
+
+
+        stats_details = s["stat"]
+
+        equip_stat_info = BonusStat.where(stats_num: stats_details).first.try('stats_info')
+        # binding.pry
         stat_info = ''
         if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
-          stat_info = "+ #{b['amount']}" + " #{equip_stat_info}"
+          stat_info = "+ #{s['amount']}" + " #{equip_stat_info}"
         elsif stats_details == 46
-          stat_info = "Equip: Restores " + "#{b['amount']}" + " health per 5 sec"
+          stat_info = "Equip: Restores " + "#{s['amount']}" + " health per 5 sec"
         elsif stats_details == 40
-          stat_info = "Equip: Increases attack power by " + "#{b['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
+          stat_info = "Equip: Increases attack power by " + "#{s['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
         elsif stats_details == 43
-          stat_info = "Equip: Restores " + "#{b['amount']}" + " mana per 5 sec"
+          stat_info = "Equip: Restores " + "#{s['amount']}" + " mana per 5 sec"
         else
-          stat_info = "#{equip_stat_info}" + " #{b['amount']}"
+          stat_info = "#{equip_stat_info}" + " #{s['amount']}"
         end
+        # binding.pry
 
         new_equip_stat << stat_info
-      end
-      logger.info "\n\n\n#{new_equip_stat}\n\n\n"
-      equip[p][:new_equip_stat] = new_equip_stat
 
+
+      end
+
+    end
+      equip = Equipment.save_untrans
+
+      logger.info "\n\n\n#{new_equip_stat}\n\n\n"
+      equip[p][:new_equip_stat][index] = new_equip_stat
+binding.pry
         new_stats_html = []
         new_equip_stat.each do |s|
         new_stats_html << "<br>" + s
-      end
+        end
       logger.info "\n\n\n#{new_stats_html}\n\n\n"
       equip[p][:new_stats_html] = new_stats_html
-
+# binding.pry
       # unless equip[p].blank?
       #   equip[p]['ratio'] = Float(equip[p].equip_counts) / Float(char.count) * 100
       # end
@@ -84,24 +83,10 @@ class UsersController < ApplicationController
         equip[p][:ratios] = er
       end
        # binding.pry
-    end
 
-    @char_class = {
-      '1' => '戰士',
-      '2' => '聖騎士',
-      '3' => '獵人',
-      '4' => '盜賊',
-      '5' => '牧師',
-      '6' => '死亡騎士',
-      '7' => '薩滿',
-      '8' => '法師',
-      '9' => '術士',
-      '10' => '武僧',
-      '11' => '德魯伊'
-    }
-
+      end
     logger.info "\n\n\n#{equip[p]}\n\n\n"
-    @pop_equip[@char_class["#{@choosen_klass['klass']}"]] = equip
+    @pop_equip[self.class.trans_klassNum_to_klassName(@choosen_klass['klass'])] = equip
     # binding.pry
     # @equip = Equipment.find(params['id'])
   end
@@ -110,24 +95,14 @@ class UsersController < ApplicationController
     @users = User.all
     @pop_equip = {}
 
-    random_klass = rand(1..11)
+    equip = {}
 
     equip_part = %w(head neck shoulder back chest wrist hands
                   waist legs feet finger1 finger2 trinket1
                   trinket2 mainHand offHand)
 
     @equip_ratios = []
-    equip = {}
-    equip_part.each do |p|
 
-      equip_obj = Equipment.where(equip_class: random_klass, equip_part: p).order("equip_counts DESC").first
-      next if equip_obj.blank?
-
-
-
-      equip[p] = equip_obj
-      equip_stat = JSON.parse(equip_obj.equip_stat)
-      next if equip_stat.blank?
       # binding.pry
       # replace equip_num with it own stat info
       new_equip_stat = []
@@ -156,7 +131,7 @@ class UsersController < ApplicationController
         new_stats_html = []
         new_equip_stat.each do |s|
         new_stats_html << "<br>" + s
-      end
+        end
       logger.info "\n\n\n#{new_stats_html}\n\n\n"
       equip[p][:new_stats_html] = new_stats_html
 
@@ -174,23 +149,10 @@ class UsersController < ApplicationController
         equip[p][:ratios] = er
       end
       # binding.pry
-    end
 
-    @char_class = {
-      '1' => '戰士',
-      '2' => '聖騎士',
-      '3' => '獵人',
-      '4' => '盜賊',
-      '5' => '牧師',
-      '6' => '死亡騎士',
-      '7' => '薩滿',
-      '8' => '法師',
-      '9' => '術士',
-      '10' => '武僧',
-      '11' => '德魯伊'
-    }
+
     logger.info "\n\n\n#{equip[p]}\n\n\n"
-    @pop_equip[@char_class["#{random_klass}"]] = equip
+    @pop_equip[self.class.trans_klassNum_to_klassName("#{random_klass}")] = equip
     # binding.pry
     # @equip = Equipment.find(params['id'])
 
@@ -201,20 +163,6 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
-      @char_class = {
-        '1' => '戰士',
-        '2' => '聖騎士',
-        '3' => '獵人',
-        '4' => '盜賊',
-        '5' => '牧師',
-        '6' => '死亡騎士',
-        '7' => '薩滿',
-        '8' => '法師',
-        '9' => '術士',
-        '10' => '武僧',
-        '11' => '德魯伊'
-      }
 
       @char_race = {
         '1' => '人類',
@@ -359,7 +307,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if current_user.save
-        format.html { redirect_to users_details_user_path, notice: 'User was successfully created.' }
+        format.html { redirect_to user_path, notice: 'User was successfully created.' }
         format.json { render json: current_user, status: :created, location: current_user }
       else
         format.html { render action: "new" }
@@ -399,10 +347,5 @@ class UsersController < ApplicationController
 
   def new_character
     #@user = current_user
-  end
-
-  def usersDetails
-    @charList = Character.where(id: current_user.id)[0]
-    # binding.pry
   end
 end

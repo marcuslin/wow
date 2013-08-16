@@ -7,6 +7,8 @@ class Character < ActiveRecord::Base
   has_many :equipments, :through => :character_equips
   belongs_to :user, :dependent => :destroy
 
+  validates :name, :realm,  :presence => true
+  validates_uniqueness_of :name
   # class is a reserved word in rails, so we renamed the "class" column.
 
   def self.get_profile(realm, charactername)
@@ -21,7 +23,19 @@ class Character < ActiveRecord::Base
     end
     # JSON.parse(File.open("#{Rails.root}/app/models/burningangel.json").read)
   end
-  validates :name, :realm,  :presence => true
-  validates_uniqueness_of :name
+
+  CHAR_KLASS = Hashie::Mash.new(
+    '1' => '戰士',
+    '2' => '聖騎士',
+    '3' => '獵人',
+    '4' => '盜賊',
+    '5' => '牧師',
+    '6' => '死亡騎士',
+    '7' => '薩滿',
+    '8' => '法師',
+    '9' => '術士',
+    '10' => '武僧',
+    '11' => '德魯伊'
+  )
 end
 

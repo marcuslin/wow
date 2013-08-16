@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801090430) do
+ActiveRecord::Schema.define(:version => 20130812122519) do
 
   create_table "bonus_stats", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20130801090430) do
 
   create_table "characters", :force => true do |t|
     t.string   "name"
-    t.string   "character_class"
+    t.integer  "character_class", :limit => 255
     t.string   "race"
     t.integer  "gender"
     t.integer  "level"

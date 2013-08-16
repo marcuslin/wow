@@ -9,13 +9,16 @@
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <% charList = Character.where(id: current_user.id)[0] %>
+            <% unless charList.blank? %>
             <li class="dropdown-submenu">
               <a tabindex="-1">角色選擇</a>
               <ul class="dropdown-menu" align="center">
-                <% charList = Character.where(id: current_user.id)[0] %>
+
                 <a href='/users/<%= charList.id %>'> <%= charList.name %></a>
               </ul>
             </li>
+            <% end %>
             <li><a tabindex="-1" href="/users/edit">帳號管理</a></li>
             <li><%= link_to("登出", destroy_user_session_path, :method => :delete )%></li>
         </ul>
@@ -31,20 +34,8 @@
         <b class="caret"></b>
       </a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <% char_class = {
-          '1' => '戰士',
-          '2' => '聖騎士',
-          '3' => '獵人',
-          '4' => '盜賊',
-          '5' => '牧師',
-          '6' => '死亡騎士',
-          '7' => '薩滿',
-          '8' => '法師',
-          '9' => '術士',
-          '10' => '武僧',
-          '11' => '德魯伊'
-        } %>
-        <% char_class.each do |num, klass| %>
+
+        <% Character::CHAR_KLASS.each do |num, klass| %>
           <li><a tabindex="-1" href="/equipment/equip_class/<%= num %>"><%= klass %></a></li>
         <% end %>
       </ul>
