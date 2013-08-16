@@ -1,6 +1,21 @@
 # encoding: UTF-8
 require 'open-uri'
 class Character < ActiveRecord::Base
+
+  CLASS_MAP = Hashie.new(
+      '1'  => '戰士',
+      '2'  => '聖騎士',
+      '3'  => '獵人',
+      '4'  => '盜賊',
+      '5'  => '牧師',
+      '6'  => '死亡騎士',
+      '7'  => '薩滿',
+      '8'  => '法師',
+      '9'  => '術士',
+      '10' => '武僧',
+      '11' => '德魯伊'
+  )
+
   attr_accessible :name, :character_class, :race, :gender, :level, :realm
 
   has_many :character_equips

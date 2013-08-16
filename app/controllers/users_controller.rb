@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users
   # GET /users.json
-  def chooseclass
+  def choose_class
 
     @pop_equip = {}
 
@@ -27,16 +27,17 @@ class UsersController < ApplicationController
                   waist legs feet finger1 finger2 trinket1
                   trinket2 mainHand offHand)
 
-    @choosen_klass = params
+    @chosen_klass = params
     @equip_ratios = []
     equip = {}
     equip_part.each do |p|
 
-      equip_obj = Equipment.where(equip_class: @choosen_klass['klass'], equip_part: p).order("equip_counts DESC").first
-      next if equip_obj.blank?
+      #equip_obj = Equipment.where(equip_class: @chosen_klass['klass'], equip_part: p).order("equip_counts DESC").first
+      equip_objs = Equipment.by_class_and_part(@chosen_klass['klass'], p)
+      next if equip_objs.blank?
 
-      equip[p] = equip_obj
-      equip_stat = JSON.parse(equip_obj.equip_stat)
+      equip[p] = equip_objs
+      equip_stat = JSON.parse(equip_objs.equip_stat)
       next if equip_stat.blank?
 # binding.pry
       # replace equip_num with it own stat info
@@ -76,8 +77,8 @@ class UsersController < ApplicationController
       #binding.pry
 
     # calculating most popular equipment ratio for random class
-      @char = Character.where(character_class: @choosen_klass['klass'])
-      equip_rate = Equipment.calc_equip(equip_obj.equip_counts, @char.count)
+      @char = Character.where(character_class: @chosen_klass['klass'])
+      equip_rate = Equipment.calc_equip(equip_objs.equip_counts, @char.count)
       @equip_ratios << equip_rate
     # save ratio for each part
       @equip_ratios.each do |er|
@@ -101,7 +102,7 @@ class UsersController < ApplicationController
     }
 
     logger.info "\n\n\n#{equip[p]}\n\n\n"
-    @pop_equip[@char_class["#{@choosen_klass['klass']}"]] = equip
+    @pop_equip[@char_class["#{@chosen_klass['klass']}"]] = equip
     # binding.pry
     # @equip = Equipment.find(params['id'])
   end

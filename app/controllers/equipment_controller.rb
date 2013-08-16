@@ -40,7 +40,7 @@ class EquipmentController < ApplicationController
     end
   end
 
-  def popequip
+  def pop_equip
     klasspart = params
 
     @char_class = {

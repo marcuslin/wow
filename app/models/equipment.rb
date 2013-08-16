@@ -32,6 +32,10 @@ class Equipment < ActiveRecord::Base
     # count and calculate specific class equip percentage
   end
 
+  def self.by_class_and_part(klass, part)
+    where(equip_class: klass, equip_part: part).order('equip_counts DESC').first
+  end
+
   #validates :equip_name, :uniqueness => true
 end
 
