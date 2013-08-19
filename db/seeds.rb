@@ -125,7 +125,7 @@ data.each do |r, chars|
 
 
         unless items[k]["tooltipParams"]["gem0"].blank?
-          gems_0 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem0"])
+          gems_0 = Jewel.get_gem_data(items[k]["tooltipParams"]["gem0"])
           gems_data0 = Jewel.where(gem_name: gems_0["name"]).first_or_create do |g|
             g.gem_icon = gems_0["icon"]
             g.gem_num = gems_0["id"]
@@ -137,7 +137,7 @@ data.each do |r, chars|
         end
 
         unless items[k]["tooltipParams"]["gem1"].blank?
-          gems_1 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem1"])
+          gems_1 = Jewel.get_gem_data(items[k]["tooltipParams"]["gem1"])
           gems_data1 = Jewel.where(gem_name: gems_1["name"]).first_or_create do |g|
             g.gem_icon = gems_1["icon"]
             g.gem_num = gems_1["id"]

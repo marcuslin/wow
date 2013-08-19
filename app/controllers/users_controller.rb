@@ -33,18 +33,18 @@ class UsersController < ApplicationController
     equip_part.each do |p|
 
       #equip_obj = Equipment.where(equip_class: @chosen_klass['klass'], equip_part: p).order("equip_counts DESC").first
-      equip_objs = Equipment.by_class_and_part(@chosen_klass['klass'], p)
-      next if equip_objs.blank?
+      equip_obj = Equipment.by_class_and_part(@chosen_klass['klass'], p)
+      next if equip_obj.blank?
 
-      equip[p] = equip_objs
-      equip_stat = JSON.parse(equip_objs.equip_stat)
+      equip[p] = equip_obj
+      equip_stat = JSON.parse(equip_obj.equip_stat)
       next if equip_stat.blank?
 # binding.pry
       # replace equip_num with it own stat info
       new_equip_stat = []
       equip_stat.each do |b|
         stats_details = b["stat"]
-        equip_stat_info = BonusStat.where(stats_num: stats_details).first.try('stats_info')
+        equip_stat_info = BonusStat.by_stats_num(stats_details)
 
         stat_info = ''
         if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
       #binding.pry
 
     # calculating most popular equipment ratio for random class
-      @char = Character.where(character_class: @chosen_klass['klass'])
+      @char = Character.by_class(@chosen_klass['klass'])
       equip_rate = Equipment.calc_equip(equip_objs.equip_counts, @char.count)
       @equip_ratios << equip_rate
     # save ratio for each part
@@ -102,8 +102,8 @@ class UsersController < ApplicationController
     }
 
     logger.info "\n\n\n#{equip[p]}\n\n\n"
-    @pop_equip[@char_class["#{@chosen_klass['klass']}"]] = equip
-    # binding.pry
+    @pop_equip[Character::CLASS_MAP[@chosen_klass['klass']]] = equip
+    binding.pry
     # @equip = Equipment.find(params['id'])
   end
 
@@ -121,7 +121,7 @@ class UsersController < ApplicationController
     equip = {}
     equip_part.each do |p|
 
-      equip_obj = Equipment.where(equip_class: random_klass, equip_part: p).order("equip_counts DESC").first
+      equip_obj = Equipment.by_random_class(random_klass, p)
       next if equip_obj.blank?
 
 
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       new_equip_stat = []
       equip_stat.each do |b|
         stats_details = b["stat"]
-        equip_stat_info = BonusStat.where(stats_num: stats_details).first.try('stats_info')
+        equip_stat_info = BonusStat.by_stats_num(stats_details)
 
         stat_info = ''
         if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
@@ -167,7 +167,7 @@ class UsersController < ApplicationController
       #binding.pry
 
     # calculating most popular equipment ratio for random class
-      @char = Character.where(character_class: random_klass)
+      @char = Character.by_class(random_klass)
       equip_rate = Equipment.calc_equip(equip_obj.equip_counts, @char.count)
       @equip_ratios << equip_rate
     # save ratio for each part
@@ -191,7 +191,7 @@ class UsersController < ApplicationController
       '11' => '德魯伊'
     }
     logger.info "\n\n\n#{equip[p]}\n\n\n"
-    @pop_equip[@char_class["#{random_klass}"]] = equip
+    @pop_equip[Character::CLASS_MAP["#{random_klass}"]] = equip
     # binding.pry
     # @equip = Equipment.find(params['id'])
 
@@ -234,8 +234,8 @@ class UsersController < ApplicationController
       }
 
 
-      user_char = Character.where(id: @user.id)
-      @char_count = Character.where(character_class: user_char[0].character_class).count
+      user_char = Character.by_user_id(@user.id)
+      @char_count = Character.count_by_user_char_klass(user_char[0].character_class)
 
 
 
@@ -278,7 +278,7 @@ class UsersController < ApplicationController
     # make sure user ids are unique in the table before we save it
     # current_user.update_attributes(user_name: user_input[:user_name])
 
-    @character = Character.where(id: current_user.id, name: user_input["characters"]).first_or_create! do |c|
+    @character = Character.by_user_id_char_name(current_user.id, user_input["characters"]) do |c|
       c.character_class = profile["class"]
       c.race            = profile["race"]
       c.gender          = profile["gender"]
@@ -298,15 +298,15 @@ class UsersController < ApplicationController
       next if k == "averageItemLevel" || k == "averageItemLevelEquipped"
 
       unless items[k].blank?
-        equip = Equipment.where(equip_name: items[k]["name"]).first_or_create do |e|
+        equip = Equipment.by_equip_name(items[k]["name"]) do |e|
           e.equip_part = k
           e.equip_icon = items[k]["icon"]
           e.equip_quality = items[k]["quality"]
           e.equip_itemlvl = items[k]["itemLevel"]
           e.equip_num = items[k]["id"]
           e.equip_class = profile["class"]
-          equipStat = Equipment.get_data(items[k]["id"])
-          e.equip_stat = equipStat["bonusStats"].to_json
+          equip_stats = Equipment.get_data(items[k]["id"])
+          e.equip_stat = equip_stats["bonusStats"].to_json
           # e.gem0_num = items[k]["tooltipParams"]["gem0"]
           # e.gem1_num = items[k]["tooltipParams"]["gem1"]
         end
@@ -316,8 +316,8 @@ class UsersController < ApplicationController
       # binding.pry
 
       unless items[k]["tooltipParams"]["gem0"].blank?
-        gems_0 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem0"])
-        gems_data0 = Jewel.where(gem_name: gems_0["name"]).first_or_create do |g|
+        gems_0 = Jewel.get_gem_data(items[k]["tooltipParams"]["gem0"])
+        gems_data0 = Jewel.by_jewel_name(gems_0["name"]) do |g|
           g.gem_icon = gems_0["icon"]
           g.gem_num = gems_0["id"]
           g.gem_data = gems_0["gemInfo"]["bonus"]
@@ -329,8 +329,8 @@ class UsersController < ApplicationController
       end
 
       unless items[k]["tooltipParams"]["gem1"].blank?
-        gems_1 = Jewel.get_gemdata(items[k]["tooltipParams"]["gem1"])
-        gems_data1 = Jewel.where(gem_name: gems_1["name"]).first_or_create do |g|
+        gems_1 = Jewel.get_gem_data(items[k]["tooltipParams"]["gem1"])
+        gems_data1 = Jewel.by_jewel_name(gems_1["name"]) do |g|
           g.gem_icon = gems_1["icon"]
           g.gem_num = gems_1["id"]
           g.gem_data = gems_1["gemInfo"]["bonus"]
@@ -351,7 +351,7 @@ class UsersController < ApplicationController
         #   equip_stat: items[k]["stats"],
         #   equip_num: items[k]["id"])
 
-      CharacterEquip.where(character_id: current_user.id, equipment_id: equip.id).first_or_create
+      CharacterEquip.by_user_id_equip_id(current_user.id, equip.id)
       # saving data to character_equips(bridge table)
     end
 
@@ -403,7 +403,7 @@ class UsersController < ApplicationController
   end
 
   def usersDetails
-    @charList = Character.where(id: current_user.id)[0]
+    @charList = Character.by_user_id(current_user.id)[0]
     # binding.pry
   end
 end

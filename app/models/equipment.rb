@@ -36,6 +36,14 @@ class Equipment < ActiveRecord::Base
     where(equip_class: klass, equip_part: part).order('equip_counts DESC').first
   end
 
+  def self.by_random_class(klass, part)
+    where(equip_class: klass, equip_part: p).order('equip_counts DESC').first
+  end
+
+  def self.by_equip_name(equip_name)
+    where(equip_name: equip_name).first_or_create
+  end
+
   #validates :equip_name, :uniqueness => true
 end
 

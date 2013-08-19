@@ -38,5 +38,22 @@ class Character < ActiveRecord::Base
   end
   validates :name, :realm,  :presence => true
   validates_uniqueness_of :name
+
+  def self.by_class(klass)
+    where(character_class: klass)
+  end
+
+  def self.by_user_id(user_id)
+    where(id: user_id)
+  end
+
+  def self.count_by_user_char_klass(user_char_klass)
+    where(character_class: user_char_klass).count
+  end
+
+  def self.by_user_id_char_name(user_id, char_name)
+    where(id: user_id, name: char_name).first_or_create!
+  end
+
 end
 
