@@ -2,7 +2,7 @@
 require 'open-uri'
 class Character < ActiveRecord::Base
 
-  CLASS_MAP = Hashie.new(
+  CLASS_MAP = Hashie::Mash.new(
       '1'  => '戰士',
       '2'  => '聖騎士',
       '3'  => '獵人',
@@ -14,6 +14,22 @@ class Character < ActiveRecord::Base
       '9'  => '術士',
       '10' => '武僧',
       '11' => '德魯伊'
+  )
+
+  RACE_MAP = Hashie::Mash.new(
+      '1' => '人類',
+      '2' => '獸人',
+      '3' => '矮人',
+      '4' => '夜精靈',
+      '5' => '不死族',
+      '6' => '牛頭人',
+      '7' => '地精',
+      '8' => '食人妖',
+      '9' => '哥不靈',
+      '10' => '血精靈',
+      '11' => '德萊尼',
+      '22' => '狼人',
+      '24' => '熊貓人'
   )
 
   attr_accessible :name, :character_class, :race, :gender, :level, :realm

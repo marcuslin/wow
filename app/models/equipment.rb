@@ -44,6 +44,12 @@ class Equipment < ActiveRecord::Base
     where(equip_name: equip_name).first_or_create
   end
 
+  def self.equip_part
+    %w(head neck shoulder back chest wrist hands
+       waist legs feet finger1 finger2 trinket1
+       trinket2 mainHand offHand)
+  end
+
   #validates :equip_name, :uniqueness => true
 end
 
