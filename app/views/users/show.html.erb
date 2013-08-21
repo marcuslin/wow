@@ -3,7 +3,7 @@
   <table align="center">
     <tr>
       <td class='charinfo', colspan="2">
-        <% character = Character.where(id: current_user.id) %>
+        <% character = Character.by_user_id(current_user.id) %>
         <% character.each do |c| %>
             <p>
               <img src="http://tw.battle.net/static-render/tw/<%= c.thumbnail %>">
@@ -16,20 +16,14 @@
 
     <tr>
       <% c.character_equips.includes(:equipment).each do |e| %>
-        <% mostPopEquip = [] %>
-        <% prePopEquip = Equipment.where(equip_class: e.equipment.equip_class, equip_part: e.equipment.equip_part).order("equip_counts DESC").first %>
-        <% mostPopEquip << prePopEquip %>
-        <% mostPopEquip.each do |m| %>
+        <% @user_char_equip.each do |m| %>
         <td>
           <img src="http://us.media.blizzard.com/wow/icons/18/<%= e.equipment.equip_icon %>.jpg">
           <a href='/equipment/<%= e.equipment_id %>' class='equip_link' id='<%= e.equipment_id %>' equip-id='<%= e.equipment_id %>'title="<p>目前裝備</p><div class='currentEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= e.equipment.equip_icon %>.jpg>&nbsp;&nbsp;<%= e.equipment.equip_name %></div><p></p><p>最多人使用</p><div class='mostEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= m.equip_icon %>.jpg>&nbsp;&nbsp;<%= m.equip_name %></div>" data-html="true" data-placement="right"><%= e.equipment.equip_name %></a>
-
         </td>
-
+        <% equip = Equipment.search_by_equip_name(e.equipment.equip_name) %>
         <td>
-          <% equip = Equipment.where(equip_name: e.equipment.equip_name) %>
-          <% equip_raito = Float(equip[0].equip_counts) / Float(@char_count) * 100 %>
-          同職業此裝備使用率為: <%= number_to_percentage( equip_raito, precision: 0) %>
+          同職業此裝備使用率為: <%= number_to_percentage( EquipmentController.count_ratio(equip[0].equip_counts, equip[0].equip_class), precision: 0) %>
         </td>
     </tr>
       <% end %>

@@ -6,32 +6,25 @@ class UsersController < ApplicationController
 
     @pop_equip = {}
 
-# If chosen class exist, get the chosen class equip info, else, get random class equip info.
-    chosen_klass = params['klass']
-    random_klass = rand(1..11)
+    # If chosen class exist, get the chosen class equip info, else, get random class equip info.
     show_klass = ''
+    show_klass = params['klass'] || rand(1..11)
 
-    if chosen_klass.blank?
-      show_klass = random_klass
-    else
-      show_klass = chosen_klass
-    end
-
-# getting equip stats num and info filtering by chosen class and part.
+    # getting equip stats num and info filtering by chosen class and part.
     equip_ratios = []
     equip = {}
 
-    Equipment.equip_part.each do |p|
+    Equipment::PART_MAP.each do |p, pc|
 
       equip_obj = Equipment.by_class_and_part(show_klass, p)
       next if equip_obj.blank?
 
-# parse stats num and info into JSON .
+      # parse stats num and info into JSON .
       equip[p] = equip_obj
       equip_stat = JSON.parse(equip_obj.equip_stat)
       next if equip_stat.blank?
 
-# replace equip_num with it own stat info, and assign it to specific part.
+      # replace equip_num with it own stat info, and assign it to specific part.
       new_equip_stat = []
       equip_stat.each do |b|
         stats_details = b["stat"]
@@ -53,7 +46,7 @@ class UsersController < ApplicationController
       end
       logger.info "\n\n\n#{new_equip_stat}\n\n\n"
       equip[p][:new_equip_stat] = new_equip_stat
-# transfer stats info into html for view, by adding <br> for each stat, and assign it to specific part.
+      # transfer stats info into html for view, by adding <br> for each stat, and assign it to specific part.
       new_stats_html = []
       new_equip_stat.each do |s|
         new_stats_html << "<br>" + s
@@ -61,9 +54,9 @@ class UsersController < ApplicationController
       logger.info "\n\n\n#{new_stats_html}\n\n\n"
       equip[p][:new_stats_html] = new_stats_html
 
-# calculating most popular equipment ratio for chosen class.
+      # calculating most popular equipment ratio for chosen class.
       @char = Character.by_class(show_klass)
-      equip_rate = Equipment.calc_equip(equip_obj.equip_counts, @char.count)
+      equip_rate = EquipmentController.count_ratio(equip_obj.equip_counts, @char.count)
       equip_ratios << equip_rate
       # save ratio for each part
       equip_ratios.each do |er|
@@ -78,9 +71,15 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-# count how many characters are there that has the same class with current user's character.
+    # count how many characters are there that has the same class with current user's character.
     user_char = Character.by_user_id(@user.id)
-    @char_count = Character.count_by_user_char_klass(user_char[0].character_class)
+    char_count = Character.count_by_user_char_klass(user_char[0].character_class)
+
+    @user_char_equip = []
+    part = Equipment::PART_MAP.each do |p, pc|
+      @pre_pop_equip = Equipment.by_class_and_part(user_char[0].character_class, p)
+    end
+    @user_char_equip << @pre_pop_equip
 
     respond_to do |format|
       format.html # show.html.erb
@@ -107,10 +106,10 @@ class UsersController < ApplicationController
   def update
 
     user_input = params[:user]
-# getting characters info back from api, by using realms and character name tha user put.
+    # getting characters info back from api, by using realms and character name tha user put.
     profile = Character.get_profile(user_input["realms"], user_input["characters"])
 
-# saving character info do db, gave each character it's user id.
+    # saving character info do db, gave each character it's user id.
     @character = Character.by_user_id_char_name(current_user.id, user_input["characters"]) do |c|
       c.character_class = profile["class"]
       c.race = profile["race"]
@@ -119,18 +118,18 @@ class UsersController < ApplicationController
       c.thumbnail = profile["thumbnail"]
       c.realm = user_input["realms"]
     end
-# get item info that this character's using.
+    # get item info that this character's using.
     items = profile["items"]
 
      equips = []
     items.keys.each do |k|
 
-# skip average item level and average item level equipped.
+      # skip average item level and average item level equipped.
       next if k == "averageItemLevel" || k == "averageItemLevelEquipped"
 
-#save equipment info to db.
+      #save equipment info to db.
       unless items[k].blank?
-        equip = Equipment.by_equip_name(items[k]["name"]) do |e|
+        equip = Equipment.create_by_equip_name(items[k]["name"]) do |e|
           e.equip_part = k
           e.equip_icon = items[k]["icon"]
           e.equip_quality = items[k]["quality"]
@@ -142,7 +141,7 @@ class UsersController < ApplicationController
         end
       end
 
-# get gems info back to db if it exist.
+      # get gems info back to db if it exist.
       unless items[k]["tooltipParams"]["gem0"].blank?
         gems_0 = Jewel.get_gem_data(items[k]["tooltipParams"]["gem0"])
         gems_data0 = Jewel.by_jewel_name(gems_0["name"]) do |g|
@@ -167,7 +166,7 @@ class UsersController < ApplicationController
         equip.save
       end
 
-# saving data to character_equips(bridge table).
+      # saving data to character_equips(bridge table).
       CharacterEquip.by_user_id_equip_id(current_user.id, equip.id)
     end
 
@@ -180,8 +179,6 @@ class UsersController < ApplicationController
         format.json { render json: current_user.errors, status: :unprocessable_entity }
       end
     end
-
-
   end
 
   def destroy

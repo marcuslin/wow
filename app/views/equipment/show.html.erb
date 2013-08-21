@@ -39,10 +39,10 @@
       <div class="otherEquip">
       <table align="right">
       <tr>
-        <td>此部位其餘玩家選擇</td>
+        <td>其餘玩家選擇</td>
         <td>使用率</td>
       </tr>
-      <% @equipRatio.each do |n, r| %>
+      <% @equip_ratio.each do |n, r| %>
       <% equipInfo = Equipment.where(equip_name: n) %>
       <tr>
         <td>
@@ -77,4 +77,3 @@
     </td>
   </tr>
 </table>
-

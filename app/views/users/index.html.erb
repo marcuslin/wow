@@ -24,9 +24,9 @@
       <% parts.each do |part, equip| %>
       <tr>
         <% if equip.nil? %>
-          <td><%= part %></td>
+          <td><%= Equipment::PART_MAP[part] %></td>
         <% else %>
-          <td><%= link_to part, klass_part_equipment_index_path(equip.equip_class, equip.equip_part) %></td>
+          <td><%= link_to Equipment::PART_MAP[part], klass_part_equipment_index_path(equip.equip_class, equip.equip_part) %></td>
         <% end %>
 
         <% if equip.blank? %>

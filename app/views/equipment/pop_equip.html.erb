@@ -4,7 +4,7 @@
   <table align="center">
     <tr>
       <td colspan="2">
-        <%= "所有 #{@char_class[@equip_pop[0].equip_class]} #{@equip_pop[0].equip_part} 使用率 "%>
+        <%= "所有#{Character::CLASS_MAP[@equip_pop[0].equip_class]}#{Equipment::PART_MAP[@equip_pop[0].equip_part]}裝備使用率" %>
       </td>
     </tr>
     <tr>
