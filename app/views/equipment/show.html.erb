@@ -16,19 +16,9 @@
           <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
           <p><% stats = JSON.parse(@equips.equip_stat) %></p>
             <p><% stats.each do |r| %></p>
-                <% statsNum = r['stat'] %>
-                <% equip_stat_info = BonusStat.where(stats_num: statsNum)[0].stats_info %>
-                <% if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(statsNum) %>
-                  <p><%= "+ #{r['amount']}" + " #{equip_stat_info}" %></p>
-                <% elsif statsNum = 46 %>
-                  <p><%= "Equip: Restores " + "#{r['amount']}" + " health per 5 sec" %></p>
-                <% elsif statsNum = 40 %>
-                  <p><%= "Equip: Increases attack power by " + "#{r['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)" %></p>
-                <% elsif statsNum = 43 %>
-                  <p><%= "Equip: Restores " + "#{r['amount']}" + " mana per 5 sec" %></p>
-                <% else %>
-                  <p><%= "#{equip_stat_info}" + " #{r['amount']}" %></p>
-                <% end %>
+              <% statsNum = r['stat'] %>
+              <% equip_stat_info = BonusStat.by_stats_num(statsNum) %>
+              <p><%= UsersController.trans_equip_stats(r['stat'], r['amount'], equip_stat_info)%></p>
             <p><% end %></p>
         </td>
       </tr>
@@ -43,7 +33,7 @@
         <td>使用率</td>
       </tr>
       <% @equip_ratio.each do |n, r| %>
-      <% equipInfo = Equipment.where(equip_name: n) %>
+      <% equipInfo = Equipment.search_by_equip_name(n) %>
       <tr>
         <td>
           <p>
@@ -66,7 +56,7 @@
       <tr>
         <td>
           <% @jewel_calc.keys.each do |k| %>
-          <% jewelsInfo = Jewel.where(gem_name: k) %>
+          <% jewelsInfo = Jewel.search_by_jewel_name(k) %>
             <p><img src="http://us.media.blizzard.com/wow/icons/36/<%= jewelsInfo[0].gem_icon %>.jpg">&nbsp;&nbsp;<%= " #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
               ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
             <p><% end %></p>

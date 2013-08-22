@@ -17,6 +17,10 @@ class Jewel < ActiveRecord::Base
     where(gem_name: jewel_name).first_or_create
   end
 
+  def self.search_by_jewel_name(jewel_name)
+    where(gem_name: jewel_name)
+  end
+
   def self.get_name_by_id(jewel_id)
     where(id: jewel_id)
   end

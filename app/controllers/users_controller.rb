@@ -27,21 +27,10 @@ class UsersController < ApplicationController
       # replace equip_num with it own stat info, and assign it to specific part.
       new_equip_stat = []
       equip_stat.each do |b|
-        stats_details = b["stat"]
-        equip_stat_info = BonusStat.by_stats_num(stats_details)
+        equip_stat_info = BonusStat.by_stats_num(b["stat"])
 
-        stat_info = ''
-        if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats_details)
-          stat_info = "+ #{b['amount']}" + " #{equip_stat_info}"
-        elsif stats_details == 46
-          stat_info = "Equip: Restores " + "#{b['amount']}" + " health per 5 sec"
-        elsif stats_details == 40
-          stat_info = "Equip: Increases attack power by " + "#{b['amount']}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
-        elsif stats_details == 43
-          stat_info = "Equip: Restores " + "#{b['amount']}" + " mana per 5 sec"
-        else
-          stat_info = "#{equip_stat_info}" + " #{b['amount']}"
-        end
+      # put transfer stats here
+      stat_info = self.class.trans_equip_stats(b["stat"], b["amount"], equip_stat_info)
       new_equip_stat << stat_info
       end
       logger.info "\n\n\n#{new_equip_stat}\n\n\n"
@@ -196,5 +185,21 @@ class UsersController < ApplicationController
 
   def usersDetails
     @charList = Character.by_user_id(current_user.id)[0]
+  end
+
+  def self.trans_equip_stats(stats, amount, equip_stat_info)
+    stat_info = ''
+    if [1, 2, 3, 4, 5, 6, 7, 57, 35].include?(stats)
+      stat_info = "+ #{amount}" + " #{equip_stat_info}"
+    elsif stats == 46
+      stat_info = "Equip: Restores " + "#{amount}" + " health per 5 sec"
+    elsif stats == 40
+      stat_info = "Equip: Increases attack power by " + "#{amount}" + "(in Cat, Bear, Dire Bear, and Moonkin forms only)"
+    elsif stats == 43
+      stat_info = "Equip: Restores " + "#{amount}" + " mana per 5 sec"
+    else
+      stat_info = "#{equip_stat_info}" + " #{amount}"
+    end
+    stat_info
   end
 end
