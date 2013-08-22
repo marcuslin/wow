@@ -59,5 +59,9 @@ class Equipment < ActiveRecord::Base
   def self.search_by_equip_name(equip_name)
     where(equip_name: equip_name)
   end
+
+  def self.count_ratio(equip_or_jewel_count, class_count)
+    Float(equip_or_jewel_count) / Float(class_count) * 100
+  end
 end
 

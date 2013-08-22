@@ -35,17 +35,10 @@ class UsersController < ApplicationController
       end
       logger.info "\n\n\n#{new_equip_stat}\n\n\n"
       equip[p][:new_equip_stat] = new_equip_stat
-      # transfer stats info into html for view, by adding <br> for each stat, and assign it to specific part.
-      new_stats_html = []
-      new_equip_stat.each do |s|
-        new_stats_html << "<br>" + s
-      end
-      logger.info "\n\n\n#{new_stats_html}\n\n\n"
-      equip[p][:new_stats_html] = new_stats_html
 
       # calculating most popular equipment ratio for chosen class.
       @char = Character.by_class(show_klass)
-      equip_rate = EquipmentController.count_ratio(equip_obj.equip_counts, @char.count)
+      equip_rate = Equipment.count_ratio(equip_obj.equip_counts, @char.count)
       equip_ratios << equip_rate
       # save ratio for each part
       equip_ratios.each do |er|

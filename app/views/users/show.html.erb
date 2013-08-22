@@ -23,7 +23,7 @@
         </td>
         <% equip = Equipment.search_by_equip_name(e.equipment.equip_name) %>
         <td>
-          同職業此裝備使用率為: <%= number_to_percentage( EquipmentController.count_ratio(equip[0].equip_counts, equip[0].equip_class), precision: 0) %>
+          同職業此裝備使用率為: <%= number_to_percentage( Equipment.count_ratio(equip[0].equip_counts, equip[0].equip_class), precision: 0) %>
         </td>
     </tr>
       <% end %>

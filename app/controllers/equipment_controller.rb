@@ -17,14 +17,14 @@ class EquipmentController < ApplicationController
       @jewel_calc[jewel_name][:ratio] = {}
 
       @jewel_calc[jewel_name][:owns_by] = jewel[k].length
-      @jewel_calc[jewel_name][:ratio] = self.class.count_ratio(jewel[k].length, char.count)
+      @jewel_calc[jewel_name][:ratio] = Equipment.count_ratio(jewel[k].length, char.count)
     end
 
     # count and calculate specific class equip percentage
     @equip_ratio = {}
     @otherEquip = Equipment.search_by_class_and_part(@equips.equip_class, @equips.equip_part).each do |o|
       equipName = o.equip_name
-      @equip_ratio[equipName] = self.class.count_ratio(o.equip_counts, char.length)
+      @equip_ratio[equipName] = Equipment.count_ratio(o.equip_counts, char.length)
     end
 
     respond_to do |format|
@@ -39,12 +39,7 @@ class EquipmentController < ApplicationController
     @char = Character.by_class(params['klass'])
     @equip_pop = Equipment.search_by_class_and_part(params['klass'], params['part'])
     @equip_pop.each do |e|
-      e.percentage = self.class.count_ratio(e.equip_counts, @char.length)
+      e.percentage = Equipment.count_ratio(e.equip_counts, @char.length)
     end
   end
-
-  def self.count_ratio(equip_or_jewel_count, class_count)
-    Float(equip_or_jewel_count) / Float(class_count) * 100
-  end
-
 end
