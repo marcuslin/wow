@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def index
-
     @pop_equip = {}
 
     # If chosen class exist, get the chosen class equip info, else, get random class equip info.
@@ -55,13 +54,13 @@ class UsersController < ApplicationController
 
     # count how many characters are there that has the same class with current user's character.
     user_char = Character.by_user_id(@user.id)
-    char_count = Character.count_by_user_char_klass(user_char[0].character_class)
+    char_count = Character.count_by_user_char_klass(user_char[0].character_class).count
 
-    @user_char_equip = []
+    @class_pop_equip = {}
     part = Equipment::PART_MAP.each do |p, pc|
       @pre_pop_equip = Equipment.by_class_and_part(user_char[0].character_class, p)
+      @class_pop_equip[p] = @pre_pop_equip
     end
-    @user_char_equip << @pre_pop_equip
 
     respond_to do |format|
       format.html # show.html.erb
@@ -86,19 +85,18 @@ class UsersController < ApplicationController
   end
 
   def update
-
     user_input = params[:user]
     # getting characters info back from api, by using realms and character name tha user put.
     profile = Character.get_profile(user_input["realms"], user_input["characters"])
 
     # saving character info do db, gave each character it's user id.
-    @character = Character.by_user_id_char_name(current_user.id, user_input["characters"]) do |c|
+    @character = Character.by_user_id_char_name(current_user.id, user_input["characters"]).first_or_create! do |c|
       c.character_class = profile["class"]
       c.race = profile["race"]
       c.gender = profile["gender"]
       c.level = profile["level"]
       c.thumbnail = profile["thumbnail"]
-      c.realm = user_input["realms"]
+      c.realm =  user_input["realms"]
     end
     # get item info that this character's using.
     items = profile["items"]
@@ -111,7 +109,7 @@ class UsersController < ApplicationController
 
       #save equipment info to db.
       unless items[k].blank?
-        equip = Equipment.create_by_equip_name(items[k]["name"]) do |e|
+        equip = Equipment.by_equip_name_and_class(items[k]["name"], profile["class"]).first_or_create do |e|
           e.equip_part = k
           e.equip_icon = items[k]["icon"]
           e.equip_quality = items[k]["quality"]
@@ -149,12 +147,12 @@ class UsersController < ApplicationController
       end
 
       # saving data to character_equips(bridge table).
-      CharacterEquip.by_user_id_equip_id(current_user.id, equip.id)
+      CharacterEquip.by_user_id_equip_id(@character.id, equip.id).first_or_create
     end
 
     respond_to do |format|
       if current_user.save
-        format.html { redirect_to users_details_user_path, notice: 'User was successfully created.' }
+        format.html { redirect_to user_path, notice: 'User was successfully created.' }
         format.json { render json: current_user, status: :created, location: current_user }
       else
         format.html { render action: "new" }
@@ -174,10 +172,6 @@ class UsersController < ApplicationController
   end
 
   def new_character
-  end
-
-  def usersDetails
-    @charList = Character.by_user_id(current_user.id)[0]
   end
 
   def self.trans_equip_stats(stats, amount, equip_stat_info)

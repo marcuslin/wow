@@ -9,15 +9,17 @@
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <% charList = Character.by_user_id(current_user.id)[0] %>
+          <% unless charList.blank? %>
             <li class="dropdown-submenu">
               <a tabindex="-1">角色選擇</a>
               <ul class="dropdown-menu" align="center">
-                <% charList = Character.by_user_id(current_user.id) %>
-                <a href='/users/<%= charList[0].id %>'> <%= charList[0].name %></a>
+                <a href='/users/<%= current_user.id %>'> <%= charList.name %></a>
               </ul>
             </li>
             <li><a tabindex="-1" href="/users/edit">帳號管理</a></li>
             <li><%= link_to("登出", destroy_user_session_path, :method => :delete )%></li>
+          <% end %>
         </ul>
       </li>
     <% else %>

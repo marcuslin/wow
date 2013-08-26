@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20130801090430) do
     t.string   "race"
     t.integer  "gender"
     t.integer  "level"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "user_id",         :limit => 255
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.integer  "user_id",         :limit => 8
     t.string   "thumbnail"
     t.string   "realm"
   end

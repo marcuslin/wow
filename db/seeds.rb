@@ -110,7 +110,7 @@ data.each do |r, chars|
         next if k == "averageItemLevel" || k == "averageItemLevelEquipped"
 
         unless items[k].blank?
-          equip = Equipment.where(equip_name: items[k]["name"], equip_class: profile["class"]).first_or_create do |e|
+          equip = Equipment.where(equip_name: items[k]["name"], equip_class: profile["class"].to_s).first_or_create do |e|
             e.equip_part = k
             e.equip_icon = items[k]["icon"]
             e.equip_quality = items[k]["quality"]
@@ -119,7 +119,6 @@ data.each do |r, chars|
             e.equip_class = profile["class"]
             equipStat = Equipment.get_data(items[k]["id"])
             e.equip_stat = equipStat["bonusStats"].to_json
-
           end
         end
 

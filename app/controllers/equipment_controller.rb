@@ -2,8 +2,9 @@
 class EquipmentController < ApplicationController
   def show
     @equips = Equipment.find(params['id'])
-    char = Character.by_class(@equips.equip_class)
 
+    char = Character.by_class(@equips.equip_class)
+    #binding.pry
     # get jewel info form same equip and group by jewel id
     jewel = @equips.jewels.map(&:id).group_by{|x| x}
     @jewel_calc = {}

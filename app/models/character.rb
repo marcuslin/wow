@@ -40,8 +40,8 @@ class Character < ActiveRecord::Base
 
   # class is a reserved word in rails, so we renamed the "class" column.
 
-  def self.get_profile(realm, charactername)
-    url = "http://tw.battle.net/api/wow/character/#{realm}/#{charactername}?fields=items"
+  def self.get_profile(realm, character_name)
+    url = "http://tw.battle.net/api/wow/character/#{realm}/#{character_name}?fields=items"
     puts url
     encoded_uri = URI.encode(url)
     # binding.pry
@@ -56,19 +56,19 @@ class Character < ActiveRecord::Base
   validates_uniqueness_of :name
 
   def self.by_class(klass)
-    where(character_class: klass)
+    where(character_class: klass.to_s)
   end
 
   def self.by_user_id(user_id)
-    where(id: user_id)
+    where(user_id: user_id)
   end
 
   def self.count_by_user_char_klass(user_char_klass)
-    where(character_class: user_char_klass).count
+    where(character_class: user_char_klass)
   end
 
   def self.by_user_id_char_name(user_id, char_name)
-    where(id: user_id, name: char_name).first_or_create!
+    where(user_id: user_id, name: char_name)
   end
 
 end

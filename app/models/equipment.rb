@@ -45,19 +45,20 @@ class Equipment < ActiveRecord::Base
   end
 
   def self.by_class_and_part(klass, part)
-    where(equip_class: klass, equip_part: part).order('equip_counts DESC').first
+    #binding.pry
+    where(equip_class: klass.to_s, equip_part: part).order('equip_counts DESC').first
   end
 
   def self.search_by_class_and_part(klass, part)
-    where(equip_class: klass, equip_part: part)
+    where(equip_class: klass.to_s, equip_part: part)
   end
 
-  def self.create_by_equip_name(equip_name)
-    where(equip_name: equip_name).first_or_create
-  end
-
-  def self.search_by_equip_name(equip_name)
+  def self.by_equip_name(equip_name)
     where(equip_name: equip_name)
+  end
+
+  def self.by_equip_name_and_class(equip_name, equip_class)
+    where(equip_name: equip_name, equip_class: equip_class.to_s)
   end
 
   def self.count_ratio(equip_or_jewel_count, class_count)

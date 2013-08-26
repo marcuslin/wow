@@ -5,64 +5,77 @@
   <tr>
     <td>
       <div id="equip_show">
-      <div class="equip_info">
-      <table align="center">
-      <tr>
-        <td>
-          <p>
-            <img src="http://us.media.blizzard.com/wow/icons/36/<%= @equips.equip_icon %>.jpg">&nbsp;&nbsp;
-            <%= "#{@equips.equip_name}" %>
-          </p>
-          <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
-          <p><% stats = JSON.parse(@equips.equip_stat) %></p>
-            <p><% stats.each do |r| %></p>
-              <% statsNum = r['stat'] %>
-              <% equip_stat_info = BonusStat.by_stats_num(statsNum) %>
-              <p><%= UsersController.trans_equip_stats(r['stat'], r['amount'], equip_stat_info)%></p>
-            <p><% end %></p>
-        </td>
-      </tr>
-      </table>
+        <div class="equip_info">
+          <table align="center">
+            <tr>
+              <td>
+                <p>
+                  <img src="http://us.media.blizzard.com/wow/icons/36/<%= @equips.equip_icon %>.jpg">&nbsp;&nbsp;
+                  <%= "#{@equips.equip_name}" %>
+                </p>
+
+                <p><%= "item level: #{@equips.equip_itemlvl}" %></p>
+
+                <p>
+                  <% stats = JSON.parse(@equips.equip_stat) %></p>
+
+                <p>
+                  <% stats.each do |r| %></p>
+                      <% statsNum = r['stat'] %>
+                      <% equip_stat_info = BonusStat.by_stats_num(statsNum) %>
+                      <p><%= UsersController.trans_equip_stats(r['stat'], r['amount'], equip_stat_info) %></p>
+
+                      <p>
+                  <% end %></p>
+                  </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </td>
     <td rowspan="2">
       <div class="otherEquip">
-      <table align="right">
-      <tr>
-        <td>其餘玩家選擇</td>
-        <td>使用率</td>
-      </tr>
-      <% @equip_ratio.each do |n, r| %>
-      <% equipInfo = Equipment.search_by_equip_name(n) %>
-      <tr>
-        <td>
-          <p>
-            <a href="/equipment/<%= equipInfo[0].id %>"><img src="http://us.media.blizzard.com/wow/icons/36/<%= equipInfo[0].equip_icon %>.jpg">&nbsp;&nbsp;<%= " #{n}" %></a>
-          </p>
-        </td>
-        <td>
-          <%= number_to_percentage(r, precision: 0)%>
-        </td>
-      <% end %>
-      </tr>
-      </table>
+        <table align="right">
+          <tr>
+            <td>其餘玩家選擇</td>
+            <td>使用率</td>
+          </tr>
+          <% @equip_ratio.each do |n, r| %>
+              <% equipInfo = Equipment.by_equip_name(n) %>
+
+              <tr>
+                <td>
+                  <p>
+                    <a href="/equipment/<%= equipInfo[0].id %>"><img src="http://us.media.blizzard.com/wow/icons/36/<%= equipInfo[0].equip_icon %>.jpg">&nbsp;&nbsp;<%= " #{n}" %>
+                    </a>
+                  </p>
+                </td>
+                <td>
+                  <%= number_to_percentage(r, precision: 0) %>
+                </td>
+          <% end %>
+          </tr>
+        </table>
       </div>
     </td>
   </tr>
   <tr>
     <td>
       <div class="jewel">
-      <table align="center">
-      <tr>
-        <td>
-          <% @jewel_calc.keys.each do |k| %>
-          <% jewelsInfo = Jewel.search_by_jewel_name(k) %>
-            <p><img src="http://us.media.blizzard.com/wow/icons/36/<%= jewelsInfo[0].gem_icon %>.jpg">&nbsp;&nbsp;<%= " #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
+        <table align="center">
+          <tr>
+            <td>
+              <% @jewel_calc.keys.each do |k| %>
+                  <% jewelsInfo = Jewel.search_by_jewel_name(k) %>
+                  <p>
+                    <img src="http://us.media.blizzard.com/wow/icons/36/<%= jewelsInfo[0].gem_icon %>.jpg">&nbsp;&nbsp;<%= " #{k}, owns by: #{pluralize(@jewel_calc[k][:owns_by], 'person')},
               ratio: #{number_to_percentage(@jewel_calc[k][:ratio], precision: 0)}" %></p>
-            <p><% end %></p>
-        </td>
-      </tr>
-      </table>
+
+                  <p>
+              <% end %></p>
+            </td>
+          </tr>
+        </table>
       </div>
     </td>
   </tr>

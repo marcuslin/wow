@@ -2,33 +2,30 @@
 <div id='character'>
   <table align="center">
     <tr>
-      <td class='charinfo', colspan="2">
-        <% character = Character.by_user_id(current_user.id) %>
-        <% character.each do |c| %>
-            <p>
-              <img src="http://tw.battle.net/static-render/tw/<%= c.thumbnail %>">
-              <%= c.name %>
-                <%= "level #{c.level}, #{Character::RACE_MAP[c.race]} #{Character::CLASS_MAP[c.character_class]}" %>
-                <%= c.realm %>
-            </p>
-      </td>
-    </tr>
-
-    <tr>
-      <% c.character_equips.includes(:equipment).each do |e| %>
-        <% @user_char_equip.each do |m| %>
-        <td>
-          <img src="http://us.media.blizzard.com/wow/icons/18/<%= e.equipment.equip_icon %>.jpg">
-          <a href='/equipment/<%= e.equipment_id %>' class='equip_link' id='<%= e.equipment_id %>' equip-id='<%= e.equipment_id %>'title="<p>目前裝備</p><div class='currentEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= e.equipment.equip_icon %>.jpg>&nbsp;&nbsp;<%= e.equipment.equip_name %></div><p></p><p>最多人使用</p><div class='mostEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= m.equip_icon %>.jpg>&nbsp;&nbsp;<%= m.equip_name %></div>" data-html="true" data-placement="right"><%= e.equipment.equip_name %></a>
+      <td class='charinfo' colspan="2">
+      <% character = Character.by_user_id(current_user.id) %>
+      <% character.each do |c| %>
+        <p>
+          <img src="http://tw.battle.net/static-render/tw/<%= c.thumbnail %>">
+          <%= c.name %>
+          <%= "level #{c.level}, #{Character::RACE_MAP[c.race]} #{Character::CLASS_MAP[c.character_class]}" %>
+          <%= c.realm %>
+        </p>
         </td>
-        <% equip = Equipment.search_by_equip_name(e.equipment.equip_name) %>
-        <td>
-          同職業此裝備使用率為: <%= number_to_percentage( Equipment.count_ratio(equip[0].equip_counts, equip[0].equip_class), precision: 0) %>
-        </td>
-    </tr>
-      <% end %>
-      <% end %>
-      <% end %>
-</table>
+        </tr>
 
+        <tr>
+        <% c.character_equips.includes(:equipment).each do |e| %>
+          <td>
+            <img src="http://us.media.blizzard.com/wow/icons/18/<%= e.equipment.equip_icon %>.jpg">
+            <a href='/equipment/<%= e.equipment_id %>' class='equip_link' id='<%= e.equipment_id %>' equip-id='<%= e.equipment_id %>' title="<p>目前裝備</p><div class='currentEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= e.equipment.equip_icon %>.jpg>&nbsp;&nbsp;<%= e.equipment.equip_name %></div><p></p><p>最多人使用</p><div class='mostEquip'><img src=http://us.media.blizzard.com/wow/icons/36/<%= @class_pop_equip[e.equipment.equip_part].equip_icon %>.jpg>&nbsp;&nbsp;<%= @class_pop_equip[e.equipment.equip_part].equip_name %></div>" data-html="true" data-placement="right"><%= e.equipment.equip_name %></a>
+          </td>
+          <% equip = Equipment.search_by_class_and_part(c.character_class, e.equipment.equip_part) %>
+          <td>
+            同職業此裝備使用率為: <%= number_to_percentage(Equipment.count_ratio(equip[0].equip_counts, Character.by_class(equip[0].equip_class).count), precision: 0) %>
+          </td>
+        </tr>
+        <% end %>
+      <% end %>
+  </table>
 </div>
